@@ -257,7 +257,7 @@ impl MiniDSP<'_> {
     }
 
     /// Gets an object wrapping an input channel
-    pub fn input(&self, index: usize) -> Result<Input> {
+    pub fn input(&self, index: usize) -> Result<Input<'_>> {
         if index >= self.device.inputs.len() {
             Err(MiniDSPError::OutOfRange)
         } else {
@@ -269,7 +269,7 @@ impl MiniDSP<'_> {
     }
 
     /// Gets an object wrapping an output channel
-    pub fn output(&self, index: usize) -> Result<Output> {
+    pub fn output(&self, index: usize) -> Result<Output<'_>> {
         if index >= self.device.outputs.len() {
             Err(MiniDSPError::OutOfRange)
         } else {
@@ -318,7 +318,7 @@ impl MiniDSP<'_> {
 pub trait Channel {
     /// internal: Returns the address for this channel to include mute/gain functions
     #[doc(hidden)]
-    fn _channel(&self) -> (&MiniDSP, Option<&device::Gate>, &'static [u16]);
+    fn _channel(&self) -> (&MiniDSP<'_>, Option<&device::Gate>, &'static [u16]);
 
     /// Sets the current mute setting
     async fn set_mute(&self, value: bool) -> Result<()> {
@@ -391,7 +391,7 @@ impl Input<'_> {
 }
 
 impl Channel for Input<'_> {
-    fn _channel(&self) -> (&MiniDSP, Option<&Gate>, &'static [u16]) {
+    fn _channel(&self) -> (&MiniDSP<'_>, Option<&Gate>, &'static [u16]) {
         (self.dsp, self.spec.gate.as_ref(), self.spec.peq)
     }
 }
@@ -453,7 +453,7 @@ impl Output<'_> {
 }
 
 impl Channel for Output<'_> {
-    fn _channel(&self) -> (&MiniDSP, Option<&Gate>, &'static [u16]) {
+    fn _channel(&self) -> (&MiniDSP<'_>, Option<&Gate>, &'static [u16]) {
         (self.dsp, Some(&self.spec.gate), self.spec.peq)
     }
 }

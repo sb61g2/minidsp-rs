@@ -61,7 +61,7 @@ impl Decoder for Codec {
                     // Because we can receive multiple packets at once, assume that the real size is < 100
                     // Valid packet sizes at this time are: 64 bytes (wi-dg), 70 bytes (PWR-ICE)
                     let mut len = src.len();
-                    while len > 100 && len % 2 == 0 {
+                    while len > 100 && len.is_multiple_of(2) {
                         len /= 2
                     }
                     self.fixed_packet_size.replace(len);

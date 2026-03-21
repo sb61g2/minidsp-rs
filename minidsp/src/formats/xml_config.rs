@@ -276,7 +276,7 @@ impl FromStr for HexString {
             Ok(HexString {
                 inner: Bytes::from_static(&[0, 0, 0, 0]),
             })
-        } else if s.len() % 2 != 0 {
+        } else if !s.len().is_multiple_of(2) {
             Ok(HexString {
                 inner: Bytes::from(hex::decode("0".to_string() + s)?),
             })
