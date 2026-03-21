@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from homeassistant.components.number import NumberDeviceClass, NumberEntity, NumberMode
+from homeassistant.components.number import NumberEntity, NumberMode
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import UnitOfSoundPressureLevel
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -32,8 +31,7 @@ class MiniDSPVolumeNumber(MiniDSPEntity, NumberEntity):
     """
 
     _attr_name = "Volume"
-    _attr_device_class = NumberDeviceClass.SOUND_PRESSURE
-    _attr_native_unit_of_measurement = UnitOfSoundPressureLevel.DECIBEL
+    _attr_native_unit_of_measurement = "dB"
     _attr_native_min_value = -127.0
     _attr_native_max_value = 0.0
     _attr_native_step = 0.5

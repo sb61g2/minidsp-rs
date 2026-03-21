@@ -2,9 +2,15 @@
 
 from __future__ import annotations
 
-from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import UnitOfSoundPressureLevel
+
+try:
+    from homeassistant.components.sensor import SensorDeviceClass
+    _SENSOR_DEVICE_CLASS = SensorDeviceClass.SOUND_PRESSURE
+except (ImportError, AttributeError):
+    _SENSOR_DEVICE_CLASS = None
+
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -64,8 +70,8 @@ class _LevelSensorFactory:
 class MiniDSPLevelSensor(MiniDSPEntity, SensorEntity):
     """Signal level in dBFS for one input or output channel."""
 
-    _attr_device_class = SensorDeviceClass.SOUND_PRESSURE
-    _attr_native_unit_of_measurement = UnitOfSoundPressureLevel.DECIBEL
+    _attr_device_class = _SENSOR_DEVICE_CLASS
+    _attr_native_unit_of_measurement = "dB"
     _attr_suggested_display_precision = 1
     _attr_entity_registry_enabled_default = _LEVELS_ENABLED_DEFAULT
 
