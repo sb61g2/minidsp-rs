@@ -17,7 +17,8 @@ from .entity import MiniDSPEntity
 
 _VOLUME_MIN = -127.0
 _VOLUME_MAX = 0.0
-_VOLUME_STEP = 0.5  # dB per step
+_VOLUME_STEP_DB = 0.5                          # dB per explicit up/down press
+_VOLUME_STEP = _VOLUME_STEP_DB / (_VOLUME_MAX - _VOLUME_MIN)  # ≈ 0.004 on 0–1 scale
 
 
 async def async_setup_entry(
@@ -40,6 +41,7 @@ class MiniDSPMediaPlayer(MiniDSPEntity, MediaPlayerEntity):
 
     _attr_name = "Volume Control"
     _attr_icon = "mdi:amplifier"
+    _attr_volume_step = _VOLUME_STEP  # tells cards how big each step is
     _attr_supported_features = (
         MediaPlayerEntityFeature.VOLUME_SET
         | MediaPlayerEntityFeature.VOLUME_MUTE
@@ -74,10 +76,10 @@ class MiniDSPMediaPlayer(MiniDSPEntity, MediaPlayerEntity):
 
     async def async_volume_up(self) -> None:
         current = self._state.volume or _VOLUME_MIN
-        new = min(current + _VOLUME_STEP, _VOLUME_MAX)
+        new = min(current + _VOLUME_STEP_DB, _VOLUME_MAX)
         await self._coordinator.async_set_volume(self._device.index, new)
 
     async def async_volume_down(self) -> None:
         current = self._state.volume or _VOLUME_MAX
-        new = max(current - _VOLUME_STEP, _VOLUME_MIN)
+        new = max(current - _VOLUME_STEP_DB, _VOLUME_MIN)
         await self._coordinator.async_set_volume(self._device.index, new)
