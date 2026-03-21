@@ -15,9 +15,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Download minidspd binary from latest GitHub release
 RUN set -eux \
     && case "${BUILD_ARCH}" in \
-         amd64)             TRIPLE="x86_64-unknown-linux-gnu" ;; \
-         aarch64)           TRIPLE="aarch64-unknown-linux-gnu" ;; \
-         armv7 | armhf)     TRIPLE="arm-linux-gnueabihf-rpi" ;; \
+         amd64)       TRIPLE="x86_64-unknown-linux-gnu" ;; \
+         aarch64)     TRIPLE="aarch64-unknown-linux-gnu" ;; \
+         armv7|armhf) TRIPLE="arm-linux-gnueabihf-rpi" ;; \
          *) echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1 ;; \
        esac \
     && RELEASE_TAG=$(curl -fsSL "https://api.github.com/repos/mrene/minidsp-rs/releases/latest" \
