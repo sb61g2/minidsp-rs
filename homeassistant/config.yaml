@@ -1,7 +1,7 @@
 name: "MiniDSP RS"
 version: "0.1.12"
 slug: "minidsp"
-description: "MiniDSP control daemon providing HTTP API and TCP server for USB-connected MiniDSP DSP devices"
+description: "MiniDSP control daemon providing HTTP API and TCP server for MiniDSP DSP devices (USB or Wi-DG network)"
 url: "https://github.com/mrene/minidsp-rs"
 arch:
   - aarch64
@@ -31,6 +31,7 @@ options:
   log_level: "info"
   http_bind_address: "0.0.0.0:5380"
   tcp_bind_address: "0.0.0.0:5333"
+  widg_ip: ""
   advertise_name: ""
   advertise_ip: ""
 
@@ -38,5 +39,6 @@ schema:
   log_level: "list(trace|debug|info|warn|error)"
   http_bind_address: str
   tcp_bind_address: str
+  widg_ip: str
   advertise_name: str
   advertise_ip: str

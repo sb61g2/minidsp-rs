@@ -21,6 +21,13 @@ bind_address = "${HTTP_BIND}"
 bind_address = "${TCP_BIND}"
 TOMLEOF
 
+# Append Wi-DG static device if IP is provided
+if bashio::config.has_value 'widg_ip'; then
+    WIDG_IP=$(bashio::config 'widg_ip')
+    bashio::log.info "Adding Wi-DG static device at ${WIDG_IP}"
+    printf '\n[[static_device]]\nurl = "tcp://%s:5333"\n' "${WIDG_IP}" >> "${CONFIG_PATH}"
+fi
+
 # Append advertise settings if both name and IP are provided
 if bashio::config.has_value 'advertise_name' && bashio::config.has_value 'advertise_ip'; then
     ADVERTISE_NAME=$(bashio::config 'advertise_name')
