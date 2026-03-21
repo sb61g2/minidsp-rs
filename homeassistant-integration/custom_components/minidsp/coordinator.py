@@ -212,8 +212,25 @@ class MiniDSPCoordinator:
     async def _post(self, device_index: int, payload: dict) -> None:
         assert self._session
         url = f"{self.base_url}/devices/{device_index}"
-        async with self._session.post(url, json=payload) as resp:
-            resp.raise_for_status()
+        last_exc: Exception | None = None
+        for attempt in range(4):
+            if attempt:
+                await asyncio.sleep(1)
+            try:
+                async with self._session.post(url, json=payload) as resp:
+                    if resp.status < 500:
+                        resp.raise_for_status()
+                        return
+                    body = await resp.text()
+                    last_exc = aiohttp.ClientResponseError(
+                        resp.request_info, resp.history,
+                        status=resp.status, message=body,
+                    )
+            except aiohttp.ClientResponseError:
+                raise
+            except Exception as exc:
+                last_exc = exc
+        raise last_exc  # type: ignore[misc]
 
     # ------------------------------------------------------------------
     # Connection test (used by config flow)
