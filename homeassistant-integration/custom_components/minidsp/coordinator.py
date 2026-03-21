@@ -196,18 +196,33 @@ class MiniDSPCoordinator:
 
     async def async_set_volume(self, device_index: int, volume: float) -> None:
         await self._post(device_index, {"volume": round(volume, 1)})
+        self._patch_state(device_index, volume=round(volume, 1))
 
     async def async_set_mute(self, device_index: int, mute: bool) -> None:
         await self._post(device_index, {"mute": mute})
+        self._patch_state(device_index, mute=mute)
 
     async def async_set_source(self, device_index: int, source: str) -> None:
         await self._post(device_index, {"source": source})
+        self._patch_state(device_index, source=source)
 
     async def async_set_preset(self, device_index: int, preset: int) -> None:
         await self._post(device_index, {"preset": preset})
+        self._patch_state(device_index, preset=preset)
 
     async def async_set_dirac(self, device_index: int, dirac: bool) -> None:
         await self._post(device_index, {"dirac": dirac})
+        self._patch_state(device_index, dirac=dirac)
+
+    def _patch_state(self, device_index: int, **kwargs) -> None:
+        """Optimistically update local state after a successful command."""
+        state = self._states.get(device_index)
+        if state is None:
+            return
+        for key, value in kwargs.items():
+            setattr(state, key, value)
+        for cb in list(self._listeners.get(device_index, set())):
+            cb()
 
     async def _post(self, device_index: int, payload: dict) -> None:
         assert self._session
