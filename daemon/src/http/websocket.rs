@@ -9,6 +9,8 @@ use minidsp::{transport::Hub, MiniDSPError};
 
 /// Bridges frames between a websocket connection and a transport hub
 /// The connection is closed as soon as a transport error occurs
+// tungstenite::Error is an external type we cannot shrink
+#[allow(clippy::result_large_err)]
 pub async fn websocket_transport_bridge(ws: HyperWebsocket, hub: Hub) -> Result<(), anyhow::Error> {
     let websocket = ws.await.context("ws await failed")?;
     let (hub_tx, hub_rx) = hub.split();
