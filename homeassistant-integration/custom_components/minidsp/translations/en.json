@@ -1,0 +1,21 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to MiniDSP daemon",
+        "description": "Enter the host and port of the running minidspd daemon. If the add-on is installed on this HA instance, use `localhost`.",
+        "data": {
+          "host": "Host",
+          "port": "Port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect. Check that the daemon is running and the host/port are correct.",
+      "unknown": "Unexpected error. Check the HA logs for details."
+    },
+    "abort": {
+      "already_configured": "This daemon is already configured."
+    }
+  }
+}
