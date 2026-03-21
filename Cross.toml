@@ -5,3 +5,11 @@ pre-build = [
   "apt-get update",
   "apt-get install -y libusb-1.0-0-dev:$CROSS_DEB_ARCH libhidapi-libusb0:$CROSS_DEB_ARCH libhidapi-dev:$CROSS_DEB_ARCH libudev-dev:$CROSS_DEB_ARCH pkg-config",
 ]
+
+[target.armv7-unknown-linux-gnueabihf]
+image = "ghcr.io/cross-rs/armv7-unknown-linux-gnueabihf:edge"
+pre-build = [
+  "dpkg --add-architecture $CROSS_DEB_ARCH",
+  "apt-get update",
+  "apt-get install -y libusb-1.0-0-dev:$CROSS_DEB_ARCH libhidapi-libusb0:$CROSS_DEB_ARCH libhidapi-dev:$CROSS_DEB_ARCH libudev-dev:$CROSS_DEB_ARCH pkg-config",
+]

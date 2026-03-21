@@ -7,7 +7,6 @@ image: "ghcr.io/sb61g2/minidsp-rs-addon-{arch}"
 arch:
   - aarch64
   - armv7
-  - armhf
   - amd64
 startup: services
 boot: auto
