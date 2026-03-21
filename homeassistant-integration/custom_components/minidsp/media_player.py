@@ -68,7 +68,16 @@ class MiniDSPMediaPlayer(MiniDSPEntity, MediaPlayerEntity):
         return self._state.mute
 
     async def async_set_volume_level(self, volume: float) -> None:
-        db = round(_VOLUME_MIN + volume * (_VOLUME_MAX - _VOLUME_MIN), 1)
+        current_level = self.volume_level
+        if current_level is not None and abs(volume - current_level) <= 0.06:
+            # Small delta → treat as a button press (card hardcodes ±0.05).
+            # Apply a fixed dB step instead of the 6 dB jump the linear
+            # mapping would produce on a 127 dB range.
+            step = _VOLUME_STEP_DB if volume > current_level else -_VOLUME_STEP_DB
+            db = max(_VOLUME_MIN, min(_VOLUME_MAX, (self._state.volume or _VOLUME_MIN) + step))
+        else:
+            # Large delta → slider drag; map linearly across the full range.
+            db = round(_VOLUME_MIN + volume * (_VOLUME_MAX - _VOLUME_MIN), 1)
         await self._coordinator.async_set_volume(self._device.index, db)
 
     async def async_mute_volume(self, mute: bool) -> None:
