@@ -4,7 +4,7 @@ use anyhow::Context;
 use futures::{future::join_all, SinkExt, StreamExt};
 use hyper::header::{self, HeaderValue};
 use hyper::{body::HttpBody, Body, Request, Response, Server, StatusCode};
-use hyper_tungstenite::tungstenite::{self, Message};
+use hyper_tungstenite::tungstenite::Message;
 use minidsp::Source;
 use minidsp::{
     model::{Config, MasterStatus, StatusSummary},
