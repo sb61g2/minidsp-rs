@@ -130,10 +130,7 @@ async fn get_master_status(req: Request<Body>) -> Result<Response<Body>, Error> 
                 .send(Message::Text(serde_json::to_string(&status).unwrap()))
                 .await?;
 
-            let mut status_stream = device
-                .subscribe_master_status()
-                .await?
-                .boxed();
+            let mut status_stream = device.subscribe_master_status().await?.boxed();
 
             let levels_device = Arc::new(tokio::sync::Mutex::new(device.clone()));
             let polled_status_device = Arc::new(tokio::sync::Mutex::new(device));
