@@ -15,7 +15,6 @@ use routerify::{Middleware, Router, RouterService};
 use routerify_query::{query_parser, RequestQueryExt};
 use schemars::JsonSchema;
 use serde::Serialize;
-use tokio_stream::wrappers::IntervalStream;
 use websocket::websocket_transport_bridge;
 
 use super::{config::HttpServer, device_manager, App};
@@ -131,92 +130,84 @@ async fn get_master_status(req: Request<Body>) -> Result<Response<Body>, Error> 
                 .send(Message::Text(serde_json::to_string(&status).unwrap()))
                 .await?;
 
-            let status_stream = device
+            let mut status_stream = device
                 .subscribe_master_status()
                 .await?
-                .filter_map(|master| async move {
-                    let summary = StatusSummary {
-                        master: minidsp::model::MasterStatus::from(master),
-                        ..Default::default()
-                    };
-
-                    let s = serde_json::to_string(&summary).unwrap();
-                    Some(Ok(Message::Text(s)))
-                })
                 .boxed();
 
-            let levels = {
-                let device = device.clone();
-                if query_levels.is_some() {
-                    // Use a single shared device instance in order to avoid multiple level queries from being done simultaneously
-                    let levels_device = Arc::new(tokio::sync::Mutex::new(device));
-                    IntervalStream::new(tokio::time::interval(Duration::from_millis(250)))
-                        .filter_map(move |_| {
-                            let device = levels_device.clone();
-                            async move {
-                                // If we are already querying for levels, skip this interval.
-                                let device = device.try_lock().ok()?;
+            let levels_device = Arc::new(tokio::sync::Mutex::new(device.clone()));
+            let polled_status_device = Arc::new(tokio::sync::Mutex::new(device));
 
-                                let (input_levels, output_levels) =
-                                    device.get_input_output_levels().await.ok()?;
+            status.input_levels.clear();
+            status.output_levels.clear();
+            let last_polled_status = Arc::new(std::sync::Mutex::new(status));
+
+            let mut level_interval = tokio::time::interval(Duration::from_millis(250));
+            let mut poll_interval = tokio::time::interval(Duration::from_secs(2));
+
+            loop {
+                tokio::select! {
+                    // Client closed or sent data — either way, stop
+                    msg = websocket.next() => {
+                        if msg.is_none() { break; }
+                    }
+
+                    // Push-based master status update from the device
+                    Some(master) = status_stream.next() => {
+                        let summary = StatusSummary {
+                            master: minidsp::model::MasterStatus::from(master),
+                            ..Default::default()
+                        };
+                        let text = serde_json::to_string(&summary).unwrap();
+                        if websocket.send(Message::Text(text)).await.is_err() {
+                            break;
+                        }
+                    }
+
+                    // Level polling at 250 ms
+                    _ = level_interval.tick(), if query_levels.is_some() => {
+                        if let Ok(dev) = levels_device.try_lock() {
+                            if let Ok((input_levels, output_levels)) =
+                                dev.get_input_output_levels().await
+                            {
                                 let summary = StatusSummary {
                                     input_levels,
                                     output_levels,
                                     ..Default::default()
                                 };
-                                let s = serde_json::to_string(&summary).unwrap();
-                                Some(Ok::<_, tungstenite::Error>(Message::Text(s)))
+                                let text = serde_json::to_string(&summary).unwrap();
+                                if websocket.send(Message::Text(text)).await.is_err() {
+                                    break;
+                                }
                             }
-                        })
-                        .boxed()
-                } else {
-                    futures::stream::empty().boxed()
-                }
-            };
+                        }
+                    }
 
-            let polled_status = {
-                if query_poll.is_some() {
-                    // Use a single shared device instance in order to avoid multiple level queries from being done simultaneously
-                    let polled_status_device = Arc::new(tokio::sync::Mutex::new(device));
-                    status.input_levels.clear();
-                    status.output_levels.clear();
-                    let last_status = Arc::new(std::sync::Mutex::new(status));
-                    IntervalStream::new(tokio::time::interval(Duration::from_secs(2)))
-                        .filter_map(move |_| {
-                            let device = polled_status_device.clone();
-                            let last_status = last_status.clone();
-                            async move {
-                                // If we are already waiting for a response, skip this interval.
-                                let device = device.try_lock().ok()?;
-                                let status = device.get_master_status().await.ok()?;
+                    // Polled status fallback every 2 s (only when ?poll is set)
+                    _ = poll_interval.tick(), if query_poll.is_some() => {
+                        if let Ok(dev) = polled_status_device.try_lock() {
+                            if let Ok(s) = dev.get_master_status().await {
                                 let summary = StatusSummary {
-                                    master: status.into(),
+                                    master: s.into(),
                                     ..Default::default()
                                 };
-
-                                {
-                                    let mut last_status = last_status.lock().unwrap();
-                                    if last_status.eq(&summary) {
-                                        return None;
-                                    } else {
-                                        let mut new_status = summary.clone();
-                                        std::mem::swap(&mut *last_status, &mut new_status);
+                                let changed = {
+                                    let mut last = last_polled_status.lock().unwrap();
+                                    if *last == summary { false } else { *last = summary.clone(); true }
+                                };
+                                if changed {
+                                    let text = serde_json::to_string(&summary).unwrap();
+                                    if websocket.send(Message::Text(text)).await.is_err() {
+                                        break;
                                     }
                                 }
-                                let s = serde_json::to_string(&summary).unwrap();
-                                Some(Ok::<_, tungstenite::Error>(Message::Text(s)))
                             }
-                        })
-                        .boxed()
-                } else {
-                    futures::stream::empty().boxed()
+                        }
+                    }
                 }
-            };
+            }
 
-            futures::stream::select_all([status_stream, levels, polled_status].into_iter())
-                .forward(websocket)
-                .await?;
-
+            websocket.close(None).await.ok();
             Ok::<(), anyhow::Error>(())
         });
 
