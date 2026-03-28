@@ -146,7 +146,10 @@ async fn get_master_status(req: Request<Body>) -> Result<Response<Body>, Error> 
                 tokio::select! {
                     // Client closed or sent data — either way, stop
                     msg = websocket.next() => {
-                        if msg.is_none() { break; }
+                        match msg {
+                            None | Some(Err(_)) | Some(Ok(Message::Close(_))) => break,
+                            _ => {}
+                        }
                     }
 
                     // Push-based master status update from the device
@@ -204,7 +207,10 @@ async fn get_master_status(req: Request<Body>) -> Result<Response<Body>, Error> 
                 }
             }
 
-            websocket.close(None).await.ok();
+            // Drop the websocket — if the client already closed the connection,
+            // calling close() would poll the underlying MapErr sink after
+            // completion and panic. Dropping is safe in all exit paths.
+            drop(websocket);
             Ok::<(), anyhow::Error>(())
         });
 
