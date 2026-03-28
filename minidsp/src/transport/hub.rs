@@ -99,11 +99,12 @@ impl Hub {
         }
         let inner = { self.inner.lock().unwrap().take() };
         if let Some(inner) = inner {
-            let mut transport_sink = inner.transport_sink.lock().await;
-            let res = transport_sink.close().await;
-            if let Err(e) = res {
-                log::error!("error closing transport: {e}");
-            }
+            // Drop the transport sink rather than calling close(). If the
+            // underlying connection already errored, the SinkMapErr wrapper
+            // will have consumed its closure and calling close() (which
+            // internally calls poll_close → map_err) would panic with
+            // "polled MapErr after completion".
+            drop(inner.transport_sink.lock().await);
         }
         for h in handles {
             let res = h.await;
