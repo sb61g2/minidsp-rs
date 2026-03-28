@@ -30,9 +30,13 @@ pub async fn websocket_transport_bridge(ws: HyperWebsocket, hub: Hub) -> Result<
         })
         .forward(hub_tx);
 
-    let (hub_fwd, ws_fwd) = tokio::join!(hub_fwd, ws_fwd);
-    hub_fwd?;
-    ws_fwd?;
+    // Use select! so that when one direction closes the other is cancelled
+    // rather than polled again. Polling a completed Forward/MapErr future
+    // causes a panic in futures-util ("polled MapErr after completion").
+    tokio::select! {
+        res = hub_fwd => { res?; }
+        res = ws_fwd => { res?; }
+    }
 
     Ok(())
 }
