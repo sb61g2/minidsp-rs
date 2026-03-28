@@ -50,7 +50,7 @@ jobs:
 
       - name: Install native build packages
         if: ${{ !matrix.use_cross }}
-        run: sudo apt-get install -y libusb-1.0-0-dev libhidapi-dev libudev-dev
+        run: sudo apt-get update && sudo apt-get install -y --fix-missing libusb-1.0-0-dev libhidapi-dev libudev-dev
 
       - name: Build minidspd
         run: |
