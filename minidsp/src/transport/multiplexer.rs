@@ -42,8 +42,9 @@ pub struct Multiplexer {
     /// The sending side of a broadcast channel used for received events
     event_tx: Arc<Mutex<Option<broadcast::Sender<Responses>>>>,
 
-    /// Sink for sending commands
-    write: tokio::sync::Mutex<BoxSink<MiniDSPError>>,
+    /// Sink for sending commands; set to None after the first send error to
+    /// prevent re-polling a SinkMapErr whose closure has been consumed.
+    write: tokio::sync::Mutex<Option<BoxSink<MiniDSPError>>>,
 }
 
 impl Multiplexer {
@@ -60,7 +61,7 @@ impl Multiplexer {
         let transport = Arc::new(Self {
             pending_command: Arc::new(Mutex::new(VecDeque::new())),
             event_tx: Arc::new(Mutex::new(Some(recv_send.clone()))),
-            write: tokio::sync::Mutex::new(tx),
+            write: tokio::sync::Mutex::new(Some(tx)),
         });
 
         // Spawn the receive task
@@ -109,9 +110,15 @@ impl Multiplexer {
                 rx
             };
 
-            let mut writer = this.write.lock().await;
+            let mut writer_guard = this.write.lock().await;
+            let writer = writer_guard.as_mut().ok_or(MiniDSPError::TransportClosed)?;
             log::trace!("send: {:02x?}", &cmd);
-            writer.send(cmd).await?;
+            if let Err(e) = writer.send(cmd).await {
+                // Poison the sink so it is never polled again — re-polling a
+                // SinkMapErr after it has consumed its closure panics.
+                writer_guard.take();
+                return Err(e);
+            }
 
             rx.await.map_err(|_| MiniDSPError::TransportClosed)?
         }
@@ -198,10 +205,11 @@ impl std::ops::Deref for MultiplexerService {
 
 impl MultiplexerService {
     pub async fn shutdown(&self) {
+        // Take (poison) the sink so it is never polled again after shutdown.
+        // If the sink already errored its SinkMapErr closure is consumed; calling
+        // close() on it would panic.
         let mut write = self.write.lock().await;
-        if let Err(e) = write.close().await {
-            log::error!("error shutting down multiplexer service: {e}");
-        }
+        write.take();
     }
 }
 
