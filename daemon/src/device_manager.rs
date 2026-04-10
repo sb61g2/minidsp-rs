@@ -212,10 +212,9 @@ pub struct Device {
 }
 
 impl Device {
-    pub fn new(url: String, device_manager: Weak<RwLock<DeviceManagerInner>>) -> Self {
+    pub fn new(url: String, _device_manager: Weak<RwLock<DeviceManagerInner>>) -> Self {
         let inner = Arc::new(std::sync::RwLock::new(DeviceInner {
             url: url.clone(),
-            device_manager,
             ..Default::default()
         }));
 
@@ -400,8 +399,6 @@ impl Device {
 pub struct DeviceInner {
     url: String,
     handle: Option<DeviceHandle>,
-
-    device_manager: Weak<RwLock<DeviceManagerInner>>,
 }
 
 pub struct DeviceHandle {
