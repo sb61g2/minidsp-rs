@@ -370,11 +370,11 @@ impl Device {
 
         log::warn!("Device at {} is closing (EOF)", &url);
 
-        // Notify the device manager that this device is to be removed
-        if let Some(device_manager) = inner.read().unwrap().device_manager.upgrade() {
-            let mut device_manager = device_manager.write().unwrap();
-            device_manager.remove(&url);
-        }
+        // Clear the handle so the device shows as not-ready while the task loop reconnects.
+        // Do NOT remove the device from the manager — that would make it disappear from the
+        // HTTP device list permanently until a daemon restart. Static devices (e.g. Wi-DG)
+        // must remain visible as DeviceNotReady during transient disconnects.
+        inner.write().unwrap().handle = None;
 
         Ok(())
     }

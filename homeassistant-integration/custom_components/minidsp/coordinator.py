@@ -102,6 +102,13 @@ class MiniDSPCoordinator:
 
         devices = []
         for i, d in enumerate(data):
+            product_name = d.get("product_name")
+            if product_name is None:
+                _LOGGER.warning(
+                    "Skipping unidentified device at %s (device identification failed)",
+                    d.get("url", "unknown"),
+                )
+                continue
             v = d.get("version") or {}
             devices.append(
                 MiniDSPDeviceInfo(
@@ -112,7 +119,7 @@ class MiniDSPCoordinator:
                     fw_minor=v.get("fw_minor", 0),
                     dsp_version=v.get("dsp_version", 0),
                     serial=v.get("serial", 0),
-                    product_name=d.get("product_name", "Generic"),
+                    product_name=product_name,
                 )
             )
         self.devices = devices
