@@ -385,7 +385,9 @@ impl Device {
             // Try to probe the device until we're successful
             let res = Self::task_inner(inner.clone()).await;
             match res {
-                Ok(_) => return Ok(()),
+                Ok(_) => {
+                    log::info!("Device disconnected, reconnecting...");
+                }
                 Err(e) => {
                     log::warn!("fail to connect: {e}");
                 }

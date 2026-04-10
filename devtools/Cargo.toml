@@ -2,7 +2,7 @@
 authors = ["Mathieu Rene <mathieu.rene@gmail.com>"]
 edition = "2021"
 name = "minidsp-devtools"
-version = "0.1.12"
+version = "0.1.13"
 license = "Apache-2.0"
 
 [features]
@@ -18,7 +18,7 @@ env_logger = "0.10.2"
 futures = "0.3.31"
 futures-sink = "0.3.31"
 futures-util = "0.3.31"
-minidsp = {path = "../minidsp", version = "0.1.12", default-features = false, features = []}
+minidsp = {path = "../minidsp", version = "0.1.13", default-features = false, features = []}
 strong-xml = "0.6.3"
 termcolor = "1.4.1"
 

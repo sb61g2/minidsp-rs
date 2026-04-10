@@ -7,7 +7,7 @@ keywords = ["minidsp", "audio", "dsp"]
 license = "Apache-2.0"
 name = "minidsp"
 repository = "https://github.com/mrene/minidsp-rs"
-version = "0.1.12"
+version = "0.1.13"
 
 [dependencies]
 anyhow = "1.0.98"
@@ -25,7 +25,7 @@ hexplay = "0.3.0"
 hyper = "0.14.32"
 lazy_static = "1.5.0"
 log = "0.4.27"
-minidsp-protocol = { path = "../protocol", version = "0.1.12", default-features = false, features = [
+minidsp-protocol = { path = "../protocol", version = "0.1.13", default-features = false, features = [
   "use_serde",
   "debug",
   "devices",
