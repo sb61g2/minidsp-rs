@@ -68,6 +68,10 @@ impl Decoder for Codec {
                 }
 
                 let mut buf = src.split_to(self.fixed_packet_size.unwrap());
+                if buf[0] == 0 {
+                    // Zero-length packet (Wi-DG null/keepalive frame) — discard and ask for more.
+                    return Ok(None);
+                }
                 return Ok(Some(buf.split_to(buf[0] as usize).freeze()));
             } else {
                 // If a single received frame is not >= 64 bytes, drop out of this hack, as it may hinder

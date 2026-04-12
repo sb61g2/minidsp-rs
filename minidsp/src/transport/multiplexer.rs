@@ -132,11 +132,17 @@ impl Multiplexer {
         mut stream: BoxStream,
     ) -> Result<(), MiniDSPError> {
         loop {
-            let data = stream
-                .as_mut()
-                .next()
-                .await
-                .ok_or(MiniDSPError::TransportClosed)??;
+            let item = stream.as_mut().next().await.ok_or(MiniDSPError::TransportClosed)?;
+            let data = match item {
+                Ok(data) => data,
+                Err(MiniDSPError::ParseError(_)) => {
+                    // Malformed or zero-length frame from the device — log and skip rather
+                    // than tearing down the entire transport connection.
+                    log::debug!("recv loop: skipping unparseable frame");
+                    continue;
+                }
+                Err(e) => return Err(e),
+            };
 
             log::trace!("recv: {data:02x?}");
 

@@ -1,5 +1,5 @@
 name: "MiniDSP RS"
-version: "0.1.22"
+version: "0.1.23"
 slug: "minidsp"
 description: "MiniDSP control daemon providing HTTP API and TCP server for MiniDSP DSP devices (USB or Wi-DG network)"
 url: "https://github.com/mrene/minidsp-rs"
