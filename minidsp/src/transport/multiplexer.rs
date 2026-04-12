@@ -132,7 +132,11 @@ impl Multiplexer {
         mut stream: BoxStream,
     ) -> Result<(), MiniDSPError> {
         loop {
-            let item = stream.as_mut().next().await.ok_or(MiniDSPError::TransportClosed)?;
+            let item = stream
+                .as_mut()
+                .next()
+                .await
+                .ok_or(MiniDSPError::TransportClosed)?;
             let data = match item {
                 Ok(data) => data,
                 Err(MiniDSPError::ParseError(_)) => {
