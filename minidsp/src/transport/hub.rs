@@ -39,10 +39,12 @@ impl Hub {
         let (send_tx, mut send_rx) = mpsc::channel(CAPACITY);
         let (device_tx, mut device_rx) = transport.split();
 
-        let inner = Inner::new(read_tx, device_tx);
+        // Create the Arc before spawning tasks so the read task can signal death by taking Inner.
+        let inner_arc = Arc::new(Mutex::new(Some(Inner::new(read_tx, device_tx))));
 
         let read_handle = {
-            let read_tx_shared = inner.device_rx.clone();
+            let read_tx_shared = inner_arc.lock().unwrap().as_ref().unwrap().device_rx.clone();
+            let inner_for_death = inner_arc.clone();
             OwnedJoinHandle::new(tokio::spawn(async move {
                 while let Some(frame) = device_rx.next().await {
                     match frame {
@@ -62,11 +64,29 @@ impl Hub {
                         }
                     }
                 }
+                // Signal connection death to all Hub consumers.
+                //
+                // When the TCP read side closes (EOF or BrokenPipe), this read task exits the
+                // while loop above. At that point nothing automatically drops the
+                // broadcast::Sender, so every BroadcastStream subscriber (including
+                // task_inner's `while let Some(frame) = transportlocal.next().await` loop in
+                // device_manager.rs) would block forever waiting for a sender that will never
+                // produce another value — causing the daemon to hang until HAOS kills it.
+                //
+                // Dropping `read_tx_shared` first brings the Arc<RwLock<Sender>> refcount from
+                // 2 (Inner + this task) down to 1.  Taking Inner from the shared Arc then
+                // brings it to 0, which drops the broadcast::Sender.  The broadcast runtime
+                // wakes all waiting receivers with RecvError::Closed, so every BroadcastStream
+                // returns None, the device_manager loop exits cleanly, and the 1-second
+                // reconnect delay fires as intended.
+                drop(read_tx_shared);
+                inner_for_death.lock().unwrap().take();
             }))
         };
 
         let send_handle = {
-            let transport_sink_shared = inner.transport_sink.clone();
+            let transport_sink_shared =
+                inner_arc.lock().unwrap().as_ref().unwrap().transport_sink.clone();
 
             OwnedJoinHandle::new(tokio::spawn({
                 async move {
@@ -85,7 +105,7 @@ impl Hub {
         let handles = Arc::new(Mutex::new(vec![read_handle, send_handle]));
 
         Self {
-            inner: Arc::new(Mutex::new(Some(inner))),
+            inner: inner_arc,
             handles,
             device_rx: BroadcastStream::new(read_rx),
             device_tx: send_tx,
