@@ -43,7 +43,13 @@ impl Hub {
         let inner_arc = Arc::new(Mutex::new(Some(Inner::new(read_tx, device_tx))));
 
         let read_handle = {
-            let read_tx_shared = inner_arc.lock().unwrap().as_ref().unwrap().device_rx.clone();
+            let read_tx_shared = inner_arc
+                .lock()
+                .unwrap()
+                .as_ref()
+                .unwrap()
+                .device_rx
+                .clone();
             let inner_for_death = inner_arc.clone();
             OwnedJoinHandle::new(tokio::spawn(async move {
                 while let Some(frame) = device_rx.next().await {
@@ -85,8 +91,13 @@ impl Hub {
         };
 
         let send_handle = {
-            let transport_sink_shared =
-                inner_arc.lock().unwrap().as_ref().unwrap().transport_sink.clone();
+            let transport_sink_shared = inner_arc
+                .lock()
+                .unwrap()
+                .as_ref()
+                .unwrap()
+                .transport_sink
+                .clone();
 
             OwnedJoinHandle::new(tokio::spawn({
                 async move {
