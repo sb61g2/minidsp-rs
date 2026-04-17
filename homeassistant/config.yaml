@@ -1,5 +1,5 @@
 name: "MiniDSP RS"
-version: "0.1.24"
+version: "0.1.25"
 slug: "minidsp"
 description: "MiniDSP control daemon providing HTTP API and TCP server for MiniDSP DSP devices (USB or Wi-DG network)"
 url: "https://github.com/mrene/minidsp-rs"
@@ -15,13 +15,15 @@ init: false
 # USB device access for MiniDSP hardware
 usb: true
 
-# Expose HTTP API and TCP protocol server
+# Expose HTTP API and TCP protocol servers (one port per device for Device Console)
 ports:
   5380/tcp: 5380
   5333/tcp: 5333
+  5334/tcp: 5334
 ports_description:
   5380/tcp: "HTTP REST API"
-  5333/tcp: "TCP Protocol Server (for MiniDSP mobile/desktop apps)"
+  5333/tcp: "TCP Protocol Server - device 0 (MiniDSP mobile/desktop apps)"
+  5334/tcp: "TCP Protocol Server - device 1 (second MiniDSP device)"
 
 # Persistent config storage
 map:
@@ -30,15 +32,16 @@ map:
 options:
   log_level: "info"
   http_bind_address: "0.0.0.0:5380"
-  tcp_bind_address: "0.0.0.0:5333"
+  tcp_servers:
+    - bind_address: "0.0.0.0:5333"
   widg_ip: ""
-  advertise_name: ""
-  advertise_ip: ""
 
 schema:
   log_level: "list(trace|debug|info|warn|error)"
   http_bind_address: str
-  tcp_bind_address: str
+  tcp_servers:
+    - bind_address: str
+      device_serial: int?
+      advertise_name: str?
+      advertise_ip: str?
   widg_ip: str
-  advertise_name: str
-  advertise_ip: str
