@@ -64,10 +64,8 @@ impl Setting {
                     hex: Some(hex),
                     ..
                 } => {
-                    let mut addr = *addr;
-                    for value in &hex.inner {
+                    for (addr, value) in (*addr..).zip(hex.inner.iter()) {
                         buf.put_slice_at(addr, &value.inner);
-                        addr += 1
                     }
                 }
                 _ => {}
