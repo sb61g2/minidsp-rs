@@ -511,7 +511,7 @@ pub async fn main(cfg: Option<HttpServer>) -> Result<(), anyhow::Error> {
         .into(),
     );
 
-    join_all(futs.into_iter()).await;
+    join_all(futs).await;
 
     Ok(())
 }
