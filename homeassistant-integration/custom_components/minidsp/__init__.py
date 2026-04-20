@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from homeassistant.config_entries import ConfigEntry
+from homeassistant.config_entries import ConfigEntry, ConfigEntryNotReady
 from homeassistant.const import CONF_HOST, CONF_PORT, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr, entity_registry as er
@@ -19,7 +19,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         host=entry.data[CONF_HOST],
         port=entry.data[CONF_PORT],
     )
-    await coordinator.async_setup()
+    try:
+        await coordinator.async_setup()
+    except Exception as exc:
+        await coordinator.async_shutdown()
+        raise ConfigEntryNotReady(f"Cannot connect to MiniDSP daemon: {exc}") from exc
+
+    if not coordinator.devices:
+        await coordinator.async_shutdown()
+        raise ConfigEntryNotReady(
+            "MiniDSP daemon is reachable but no devices are identified yet "
+            "(device may still be initialising after a power cycle)"
+        )
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
 
