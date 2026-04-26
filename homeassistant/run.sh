@@ -49,6 +49,24 @@ if [ -n "${WIDG_IP}" ] && [ "${WIDG_IP}" != "null" ]; then
     printf '[[static_device]]\nurl = "tcp://%s:5333"\n' "${WIDG_IP}" >> "${CONFIG_PATH}"
 fi
 
+# Release snd-usb-audio's claim on MiniDSP FlexHTx audio interfaces.
+# The Linux UAC driver binds to the FlexHTx audio interfaces and its clock
+# negotiation failure (err -71) destabilises the HID interface that minidspd
+# uses, causing repeated "Device not ready" / HID errors on USB reconnect.
+if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
+    for iface in /sys/bus/usb/drivers/snd-usb-audio/*; do
+        iface_name=$(basename "${iface}")
+        # Only process interface symlinks (format "1-1:1.0", contain a colon)
+        case "${iface_name}" in *:*) ;; *) continue ;; esac
+        vendor=$(cat "${iface}/../idVendor"  2>/dev/null || true)
+        product=$(cat "${iface}/../idProduct" 2>/dev/null || true)
+        if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
+            echo "Releasing snd-usb-audio from ${iface_name} (MiniDSP FlexHTx)"
+            echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind 2>/dev/null || true
+        fi
+    done
+fi
+
 echo "Starting MiniDSP RS daemon"
 echo "  HTTP API: http://${HTTP_BIND}"
 [ -n "${WIDG_IP}" ] && [ "${WIDG_IP}" != "null" ] && echo "  Wi-DG   : tcp://${WIDG_IP}:5333"
