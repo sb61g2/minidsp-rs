@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
@@ -63,6 +64,7 @@ class MiniDSPCoordinator:
 
         self.devices: list[MiniDSPDeviceInfo] = []
         self._states: dict[int, MiniDSPState] = {}
+        self._last_update: dict[int, float] = {}
         self._listeners: dict[int, set[Callable[[], None]]] = {}
         self._ws_tasks: dict[int, asyncio.Task] = {}
         self._session: aiohttp.ClientSession | None = None
@@ -172,8 +174,21 @@ class MiniDSPCoordinator:
         if "output_levels" in data:
             state.output_levels = data["output_levels"]
 
+        self._last_update[device_index] = time.monotonic()
+
         for cb in list(self._listeners.get(device_index, set())):
             cb()
+
+    # ------------------------------------------------------------------
+    # Availability
+    # ------------------------------------------------------------------
+
+    def is_device_available(self, device_index: int) -> bool:
+        """Return False if no WebSocket update received in the last 2 minutes."""
+        last = self._last_update.get(device_index)
+        if last is None:
+            return False
+        return (time.monotonic() - last) < 120
 
     # ------------------------------------------------------------------
     # Listener subscription
