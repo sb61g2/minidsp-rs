@@ -101,8 +101,20 @@ impl HidStream {
                     Ok(size) => {
                         // successful read
                         read_buf.truncate(size);
-                        log::trace!("read: {:02x?}", read_buf.as_ref());
-                        tx.unbounded_send(Ok(read_buf.freeze()))?;
+                        // On Linux (hidraw backend), read_timeout returns data with the HID
+                        // report ID prepended as the first byte (0x00 for MiniDSP devices).
+                        // The protocol codec expects data without the report ID, so strip it.
+                        // On macOS/Windows, hidapi does not include the report ID in read data,
+                        // but a leading 0x00 would be an invalid frame length anyway, so
+                        // stripping it is safe on all platforms.
+                        let bytes = read_buf.freeze();
+                        let frame = if bytes.first() == Some(&0x00) {
+                            bytes.slice(1..)
+                        } else {
+                            bytes
+                        };
+                        log::trace!("read: {:02x?}", frame.as_ref());
+                        tx.unbounded_send(Ok(frame))?;
                     }
                     Err(e) => {
                         // device error
