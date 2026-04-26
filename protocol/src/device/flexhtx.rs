@@ -470,230 +470,310 @@ pub mod sym {
     pub const METER_D_OUT_6: u16 = 805;
     pub const METER_D_OUT_7: u16 = 806;
     pub const METER_D_OUT_8: u16 = 807;
-    pub const METER_COMP_1: u16 = 808;
-    pub const METER_COMP_2: u16 = 809;
-    pub const METER_COMP_3: u16 = 810;
-    pub const METER_COMP_4: u16 = 811;
-    pub const METER_COMP_5: u16 = 812;
-    pub const METER_COMP_6: u16 = 813;
-    pub const METER_COMP_7: u16 = 814;
-    pub const METER_COMP_8: u16 = 815;
-    pub const METER_OUT_1: u16 = 816;
-    pub const METER_OUT_2: u16 = 817;
-    pub const METER_OUT_3: u16 = 818;
-    pub const METER_OUT_4: u16 = 819;
-    pub const METER_OUT_5: u16 = 820;
-    pub const METER_OUT_6: u16 = 821;
-    pub const METER_OUT_7: u16 = 822;
-    pub const METER_OUT_8: u16 = 823;
-    pub const D_GAIN_1_0_STATUS: u16 = 824;
-    pub const COMP_1_0_STATUS: u16 = 825;
-    pub const D_GAIN_1_0: u16 = 826;
-    pub const COMP_1_0_THRESHOLD: u16 = 827;
-    pub const COMP_1_0_GAIN: u16 = 828;
-    pub const COMP_1_0_RATIO: u16 = 829;
-    pub const COMP_1_0_KNEE: u16 = 830;
-    pub const COMP_1_0_ATIME: u16 = 831;
-    pub const COMP_1_0_RTIME: u16 = 832;
-    pub const DELAY_1_0: u16 = 833;
+    pub const METER_COMP_9: u16 = 808;
+    pub const METER_COMP_10: u16 = 809;
+    pub const METER_COMP_11: u16 = 810;
+    pub const METER_COMP_12: u16 = 811;
+    pub const METER_COMP_13: u16 = 812;
+    pub const METER_COMP_14: u16 = 813;
+    pub const METER_COMP_15: u16 = 814;
+    pub const METER_COMP_16: u16 = 815;
+    pub const METER_OUT_9: u16 = 816;
+    pub const METER_OUT_10: u16 = 817;
+    pub const METER_OUT_11: u16 = 818;
+    pub const METER_OUT_12: u16 = 819;
+    pub const METER_OUT_13: u16 = 820;
+    pub const METER_OUT_14: u16 = 821;
+    pub const METER_OUT_15: u16 = 822;
+    pub const METER_OUT_16: u16 = 823;
+    pub const D_GAIN_9_0_STATUS: u16 = 824;
+    pub const COMP_9_0_STATUS: u16 = 825;
+    pub const D_GAIN_9_0: u16 = 826;
+    pub const COMP_9_0_THRESHOLD: u16 = 827;
+    pub const COMP_9_0_GAIN: u16 = 828;
+    pub const COMP_9_0_RATIO: u16 = 829;
+    pub const COMP_9_0_KNEE: u16 = 830;
+    pub const COMP_9_0_ATIME: u16 = 831;
+    pub const COMP_9_0_RTIME: u16 = 832;
+    pub const DELAY_9_0: u16 = 833;
     pub const METER_1_0: u16 = 834;
     pub const METER_1_1: u16 = 835;
     pub const METER_1_2: u16 = 836;
-    pub const POLARITY_OUT_1_0: u16 = 837;
-    pub const PEQ_1_1: u16 = 838;
-    pub const PEQ_1_2: u16 = 843;
-    pub const PEQ_1_3: u16 = 848;
-    pub const PEQ_1_4: u16 = 853;
-    pub const PEQ_1_5: u16 = 858;
-    pub const PEQ_1_6: u16 = 863;
-    pub const PEQ_1_7: u16 = 868;
-    pub const PEQ_1_8: u16 = 873;
-    pub const PEQ_1_9: u16 = 878;
-    pub const PEQ_1_10: u16 = 883;
-    pub const BPF_1_1: u16 = 888;
-    pub const BPF_1_5: u16 = 908;
-    pub const D_GAIN_2_0_STATUS: u16 = 928;
-    pub const COMP_2_0_STATUS: u16 = 929;
-    pub const D_GAIN_2_0: u16 = 930;
-    pub const COMP_2_0_THRESHOLD: u16 = 931;
-    pub const COMP_2_0_GAIN: u16 = 932;
-    pub const COMP_2_0_RATIO: u16 = 933;
-    pub const COMP_2_0_KNEE: u16 = 934;
-    pub const COMP_2_0_ATIME: u16 = 935;
-    pub const COMP_2_0_RTIME: u16 = 936;
-    pub const DELAY_2_0: u16 = 937;
+    pub const POLARITY_OUT_9_0: u16 = 837;
+    pub const PEQ_9_1: u16 = 838;
+    pub const PEQ_9_2: u16 = 843;
+    pub const PEQ_9_3: u16 = 848;
+    pub const PEQ_9_4: u16 = 853;
+    pub const PEQ_9_5: u16 = 858;
+    pub const PEQ_9_6: u16 = 863;
+    pub const PEQ_9_7: u16 = 868;
+    pub const PEQ_9_8: u16 = 873;
+    pub const PEQ_9_9: u16 = 878;
+    pub const PEQ_9_10: u16 = 883;
+    pub const BPF_9_1: u16 = 888;
+    pub const BPF_9_5: u16 = 908;
+    pub const D_GAIN_10_0_STATUS: u16 = 928;
+    pub const COMP_10_0_STATUS: u16 = 929;
+    pub const D_GAIN_10_0: u16 = 930;
+    pub const COMP_10_0_THRESHOLD: u16 = 931;
+    pub const COMP_10_0_GAIN: u16 = 932;
+    pub const COMP_10_0_RATIO: u16 = 933;
+    pub const COMP_10_0_KNEE: u16 = 934;
+    pub const COMP_10_0_ATIME: u16 = 935;
+    pub const COMP_10_0_RTIME: u16 = 936;
+    pub const DELAY_10_0: u16 = 937;
     pub const METER_2_0: u16 = 938;
     pub const METER_2_1: u16 = 939;
     pub const METER_2_2: u16 = 940;
-    pub const POLARITY_OUT_2_0: u16 = 941;
-    pub const PEQ_2_1: u16 = 942;
-    pub const PEQ_2_2: u16 = 947;
-    pub const PEQ_2_3: u16 = 952;
-    pub const PEQ_2_4: u16 = 957;
-    pub const PEQ_2_5: u16 = 962;
-    pub const PEQ_2_6: u16 = 967;
-    pub const PEQ_2_7: u16 = 972;
-    pub const PEQ_2_8: u16 = 977;
-    pub const PEQ_2_9: u16 = 982;
-    pub const PEQ_2_10: u16 = 987;
-    pub const BPF_2_1: u16 = 992;
-    pub const BPF_2_5: u16 = 1012;
-    pub const D_GAIN_3_0_STATUS: u16 = 1032;
-    pub const COMP_3_0_STATUS: u16 = 1033;
-    pub const D_GAIN_3_0: u16 = 1034;
-    pub const COMP_3_0_THRESHOLD: u16 = 1035;
-    pub const COMP_3_0_GAIN: u16 = 1036;
-    pub const COMP_3_0_RATIO: u16 = 1037;
-    pub const COMP_3_0_KNEE: u16 = 1038;
-    pub const COMP_3_0_ATIME: u16 = 1039;
-    pub const COMP_3_0_RTIME: u16 = 1040;
-    pub const DELAY_3_0: u16 = 1041;
+    pub const POLARITY_OUT_10_0: u16 = 941;
+    pub const PEQ_10_1: u16 = 942;
+    pub const PEQ_10_2: u16 = 947;
+    pub const PEQ_10_3: u16 = 952;
+    pub const PEQ_10_4: u16 = 957;
+    pub const PEQ_10_5: u16 = 962;
+    pub const PEQ_10_6: u16 = 967;
+    pub const PEQ_10_7: u16 = 972;
+    pub const PEQ_10_8: u16 = 977;
+    pub const PEQ_10_9: u16 = 982;
+    pub const PEQ_10_10: u16 = 987;
+    pub const BPF_10_1: u16 = 992;
+    pub const BPF_10_5: u16 = 1012;
+    pub const D_GAIN_11_0_STATUS: u16 = 1032;
+    pub const COMP_11_0_STATUS: u16 = 1033;
+    pub const D_GAIN_11_0: u16 = 1034;
+    pub const COMP_11_0_THRESHOLD: u16 = 1035;
+    pub const COMP_11_0_GAIN: u16 = 1036;
+    pub const COMP_11_0_RATIO: u16 = 1037;
+    pub const COMP_11_0_KNEE: u16 = 1038;
+    pub const COMP_11_0_ATIME: u16 = 1039;
+    pub const COMP_11_0_RTIME: u16 = 1040;
+    pub const DELAY_11_0: u16 = 1041;
     pub const METER_3_0: u16 = 1042;
     pub const METER_3_1: u16 = 1043;
     pub const METER_3_2: u16 = 1044;
-    pub const POLARITY_OUT_3_0: u16 = 1045;
-    pub const PEQ_3_1: u16 = 1046;
-    pub const PEQ_3_2: u16 = 1051;
-    pub const PEQ_3_3: u16 = 1056;
-    pub const PEQ_3_4: u16 = 1061;
-    pub const PEQ_3_5: u16 = 1066;
-    pub const PEQ_3_6: u16 = 1071;
-    pub const PEQ_3_7: u16 = 1076;
-    pub const PEQ_3_8: u16 = 1081;
-    pub const PEQ_3_9: u16 = 1086;
-    pub const PEQ_3_10: u16 = 1091;
-    pub const BPF_3_1: u16 = 1096;
-    pub const BPF_3_5: u16 = 1116;
-    pub const D_GAIN_4_0_STATUS: u16 = 1136;
-    pub const COMP_4_0_STATUS: u16 = 1137;
-    pub const D_GAIN_4_0: u16 = 1138;
-    pub const COMP_4_0_THRESHOLD: u16 = 1139;
-    pub const COMP_4_0_GAIN: u16 = 1140;
-    pub const COMP_4_0_RATIO: u16 = 1141;
-    pub const COMP_4_0_KNEE: u16 = 1142;
-    pub const COMP_4_0_ATIME: u16 = 1143;
-    pub const COMP_4_0_RTIME: u16 = 1144;
-    pub const DELAY_4_0: u16 = 1145;
+    pub const POLARITY_OUT_11_0: u16 = 1045;
+    pub const PEQ_11_1: u16 = 1046;
+    pub const PEQ_11_2: u16 = 1051;
+    pub const PEQ_11_3: u16 = 1056;
+    pub const PEQ_11_4: u16 = 1061;
+    pub const PEQ_11_5: u16 = 1066;
+    pub const PEQ_11_6: u16 = 1071;
+    pub const PEQ_11_7: u16 = 1076;
+    pub const PEQ_11_8: u16 = 1081;
+    pub const PEQ_11_9: u16 = 1086;
+    pub const PEQ_11_10: u16 = 1091;
+    pub const BPF_11_1: u16 = 1096;
+    pub const BPF_11_5: u16 = 1116;
+    pub const D_GAIN_12_0_STATUS: u16 = 1136;
+    pub const COMP_12_0_STATUS: u16 = 1137;
+    pub const D_GAIN_12_0: u16 = 1138;
+    pub const COMP_12_0_THRESHOLD: u16 = 1139;
+    pub const COMP_12_0_GAIN: u16 = 1140;
+    pub const COMP_12_0_RATIO: u16 = 1141;
+    pub const COMP_12_0_KNEE: u16 = 1142;
+    pub const COMP_12_0_ATIME: u16 = 1143;
+    pub const COMP_12_0_RTIME: u16 = 1144;
+    pub const DELAY_12_0: u16 = 1145;
     pub const METER_4_0: u16 = 1146;
     pub const METER_4_1: u16 = 1147;
     pub const METER_4_2: u16 = 1148;
-    pub const POLARITY_OUT_4_0: u16 = 1149;
-    pub const PEQ_4_1: u16 = 1150;
-    pub const PEQ_4_2: u16 = 1155;
-    pub const PEQ_4_3: u16 = 1160;
-    pub const PEQ_4_4: u16 = 1165;
-    pub const PEQ_4_5: u16 = 1170;
-    pub const PEQ_4_6: u16 = 1175;
-    pub const PEQ_4_7: u16 = 1180;
-    pub const PEQ_4_8: u16 = 1185;
-    pub const PEQ_4_9: u16 = 1190;
-    pub const PEQ_4_10: u16 = 1195;
-    pub const BPF_4_1: u16 = 1200;
-    pub const BPF_4_5: u16 = 1220;
-    pub const D_GAIN_5_0_STATUS: u16 = 1240;
-    pub const COMP_5_0_STATUS: u16 = 1241;
-    pub const D_GAIN_5_0: u16 = 1242;
-    pub const COMP_5_0_THRESHOLD: u16 = 1243;
-    pub const COMP_5_0_GAIN: u16 = 1244;
-    pub const COMP_5_0_RATIO: u16 = 1245;
-    pub const COMP_5_0_KNEE: u16 = 1246;
-    pub const COMP_5_0_ATIME: u16 = 1247;
-    pub const COMP_5_0_RTIME: u16 = 1248;
-    pub const DELAY_5_0: u16 = 1249;
+    pub const POLARITY_OUT_12_0: u16 = 1149;
+    pub const PEQ_12_1: u16 = 1150;
+    pub const PEQ_12_2: u16 = 1155;
+    pub const PEQ_12_3: u16 = 1160;
+    pub const PEQ_12_4: u16 = 1165;
+    pub const PEQ_12_5: u16 = 1170;
+    pub const PEQ_12_6: u16 = 1175;
+    pub const PEQ_12_7: u16 = 1180;
+    pub const PEQ_12_8: u16 = 1185;
+    pub const PEQ_12_9: u16 = 1190;
+    pub const PEQ_12_10: u16 = 1195;
+    pub const BPF_12_1: u16 = 1200;
+    pub const BPF_12_5: u16 = 1220;
+    pub const D_GAIN_13_0_STATUS: u16 = 1240;
+    pub const COMP_13_0_STATUS: u16 = 1241;
+    pub const D_GAIN_13_0: u16 = 1242;
+    pub const COMP_13_0_THRESHOLD: u16 = 1243;
+    pub const COMP_13_0_GAIN: u16 = 1244;
+    pub const COMP_13_0_RATIO: u16 = 1245;
+    pub const COMP_13_0_KNEE: u16 = 1246;
+    pub const COMP_13_0_ATIME: u16 = 1247;
+    pub const COMP_13_0_RTIME: u16 = 1248;
+    pub const DELAY_13_0: u16 = 1249;
     pub const METER_5_0: u16 = 1250;
     pub const METER_5_1: u16 = 1251;
     pub const METER_5_2: u16 = 1252;
-    pub const POLARITY_OUT_5_0: u16 = 1253;
-    pub const PEQ_5_1: u16 = 1254;
-    pub const PEQ_5_2: u16 = 1259;
-    pub const PEQ_5_3: u16 = 1264;
-    pub const PEQ_5_4: u16 = 1269;
-    pub const PEQ_5_5: u16 = 1274;
-    pub const PEQ_5_6: u16 = 1279;
-    pub const PEQ_5_7: u16 = 1284;
-    pub const PEQ_5_8: u16 = 1289;
-    pub const PEQ_5_9: u16 = 1294;
-    pub const PEQ_5_10: u16 = 1299;
-    pub const BPF_5_1: u16 = 1304;
-    pub const BPF_5_5: u16 = 1324;
-    pub const D_GAIN_6_0_STATUS: u16 = 1344;
-    pub const COMP_6_0_STATUS: u16 = 1345;
-    pub const D_GAIN_6_0: u16 = 1346;
-    pub const COMP_6_0_THRESHOLD: u16 = 1347;
-    pub const COMP_6_0_GAIN: u16 = 1348;
-    pub const COMP_6_0_RATIO: u16 = 1349;
-    pub const COMP_6_0_KNEE: u16 = 1350;
-    pub const COMP_6_0_ATIME: u16 = 1351;
-    pub const COMP_6_0_RTIME: u16 = 1352;
-    pub const DELAY_6_0: u16 = 1353;
+    pub const POLARITY_OUT_13_0: u16 = 1253;
+    pub const PEQ_13_1: u16 = 1254;
+    pub const PEQ_13_2: u16 = 1259;
+    pub const PEQ_13_3: u16 = 1264;
+    pub const PEQ_13_4: u16 = 1269;
+    pub const PEQ_13_5: u16 = 1274;
+    pub const PEQ_13_6: u16 = 1279;
+    pub const PEQ_13_7: u16 = 1284;
+    pub const PEQ_13_8: u16 = 1289;
+    pub const PEQ_13_9: u16 = 1294;
+    pub const PEQ_13_10: u16 = 1299;
+    pub const BPF_13_1: u16 = 1304;
+    pub const BPF_13_5: u16 = 1324;
+    pub const D_GAIN_14_0_STATUS: u16 = 1344;
+    pub const COMP_14_0_STATUS: u16 = 1345;
+    pub const D_GAIN_14_0: u16 = 1346;
+    pub const COMP_14_0_THRESHOLD: u16 = 1347;
+    pub const COMP_14_0_GAIN: u16 = 1348;
+    pub const COMP_14_0_RATIO: u16 = 1349;
+    pub const COMP_14_0_KNEE: u16 = 1350;
+    pub const COMP_14_0_ATIME: u16 = 1351;
+    pub const COMP_14_0_RTIME: u16 = 1352;
+    pub const DELAY_14_0: u16 = 1353;
     pub const METER_6_0: u16 = 1354;
     pub const METER_6_1: u16 = 1355;
     pub const METER_6_2: u16 = 1356;
-    pub const POLARITY_OUT_6_0: u16 = 1357;
-    pub const PEQ_6_1: u16 = 1358;
-    pub const PEQ_6_2: u16 = 1363;
-    pub const PEQ_6_3: u16 = 1368;
-    pub const PEQ_6_4: u16 = 1373;
-    pub const PEQ_6_5: u16 = 1378;
-    pub const PEQ_6_6: u16 = 1383;
-    pub const PEQ_6_7: u16 = 1388;
-    pub const PEQ_6_8: u16 = 1393;
-    pub const PEQ_6_9: u16 = 1398;
-    pub const PEQ_6_10: u16 = 1403;
-    pub const BPF_6_1: u16 = 1408;
-    pub const BPF_6_5: u16 = 1428;
-    pub const D_GAIN_7_0_STATUS: u16 = 1448;
-    pub const COMP_7_0_STATUS: u16 = 1449;
-    pub const D_GAIN_7_0: u16 = 1450;
-    pub const COMP_7_0_THRESHOLD: u16 = 1451;
-    pub const COMP_7_0_GAIN: u16 = 1452;
-    pub const COMP_7_0_RATIO: u16 = 1453;
-    pub const COMP_7_0_KNEE: u16 = 1454;
-    pub const COMP_7_0_ATIME: u16 = 1455;
-    pub const COMP_7_0_RTIME: u16 = 1456;
-    pub const DELAY_7_0: u16 = 1457;
+    pub const POLARITY_OUT_14_0: u16 = 1357;
+    pub const PEQ_14_1: u16 = 1358;
+    pub const PEQ_14_2: u16 = 1363;
+    pub const PEQ_14_3: u16 = 1368;
+    pub const PEQ_14_4: u16 = 1373;
+    pub const PEQ_14_5: u16 = 1378;
+    pub const PEQ_14_6: u16 = 1383;
+    pub const PEQ_14_7: u16 = 1388;
+    pub const PEQ_14_8: u16 = 1393;
+    pub const PEQ_14_9: u16 = 1398;
+    pub const PEQ_14_10: u16 = 1403;
+    pub const BPF_14_1: u16 = 1408;
+    pub const BPF_14_5: u16 = 1428;
+    pub const D_GAIN_15_0_STATUS: u16 = 1448;
+    pub const COMP_15_0_STATUS: u16 = 1449;
+    pub const D_GAIN_15_0: u16 = 1450;
+    pub const COMP_15_0_THRESHOLD: u16 = 1451;
+    pub const COMP_15_0_GAIN: u16 = 1452;
+    pub const COMP_15_0_RATIO: u16 = 1453;
+    pub const COMP_15_0_KNEE: u16 = 1454;
+    pub const COMP_15_0_ATIME: u16 = 1455;
+    pub const COMP_15_0_RTIME: u16 = 1456;
+    pub const DELAY_15_0: u16 = 1457;
     pub const METER_7_0: u16 = 1458;
     pub const METER_7_1: u16 = 1459;
     pub const METER_7_2: u16 = 1460;
-    pub const POLARITY_OUT_7_0: u16 = 1461;
-    pub const PEQ_7_1: u16 = 1462;
-    pub const PEQ_7_2: u16 = 1467;
-    pub const PEQ_7_3: u16 = 1472;
-    pub const PEQ_7_4: u16 = 1477;
-    pub const PEQ_7_5: u16 = 1482;
-    pub const PEQ_7_6: u16 = 1487;
-    pub const PEQ_7_7: u16 = 1492;
-    pub const PEQ_7_8: u16 = 1497;
-    pub const PEQ_7_9: u16 = 1502;
-    pub const PEQ_7_10: u16 = 1507;
-    pub const BPF_7_1: u16 = 1512;
-    pub const BPF_7_5: u16 = 1532;
-    pub const D_GAIN_8_0_STATUS: u16 = 1552;
-    pub const COMP_8_0_STATUS: u16 = 1553;
-    pub const D_GAIN_8_0: u16 = 1554;
-    pub const COMP_8_0_THRESHOLD: u16 = 1555;
-    pub const COMP_8_0_GAIN: u16 = 1556;
-    pub const COMP_8_0_RATIO: u16 = 1557;
-    pub const COMP_8_0_KNEE: u16 = 1558;
-    pub const COMP_8_0_ATIME: u16 = 1559;
-    pub const COMP_8_0_RTIME: u16 = 1560;
-    pub const DELAY_8_0: u16 = 1561;
+    pub const POLARITY_OUT_15_0: u16 = 1461;
+    pub const PEQ_15_1: u16 = 1462;
+    pub const PEQ_15_2: u16 = 1467;
+    pub const PEQ_15_3: u16 = 1472;
+    pub const PEQ_15_4: u16 = 1477;
+    pub const PEQ_15_5: u16 = 1482;
+    pub const PEQ_15_6: u16 = 1487;
+    pub const PEQ_15_7: u16 = 1492;
+    pub const PEQ_15_8: u16 = 1497;
+    pub const PEQ_15_9: u16 = 1502;
+    pub const PEQ_15_10: u16 = 1507;
+    pub const BPF_15_1: u16 = 1512;
+    pub const BPF_15_5: u16 = 1532;
+    pub const D_GAIN_16_0_STATUS: u16 = 1552;
+    pub const COMP_16_0_STATUS: u16 = 1553;
+    pub const D_GAIN_16_0: u16 = 1554;
+    pub const COMP_16_0_THRESHOLD: u16 = 1555;
+    pub const COMP_16_0_GAIN: u16 = 1556;
+    pub const COMP_16_0_RATIO: u16 = 1557;
+    pub const COMP_16_0_KNEE: u16 = 1558;
+    pub const COMP_16_0_ATIME: u16 = 1559;
+    pub const COMP_16_0_RTIME: u16 = 1560;
+    pub const DELAY_16_0: u16 = 1561;
     pub const METER_8_0: u16 = 1562;
     pub const METER_8_1: u16 = 1563;
     pub const METER_8_2: u16 = 1564;
-    pub const POLARITY_OUT_8_0: u16 = 1565;
-    pub const PEQ_8_1: u16 = 1566;
-    pub const PEQ_8_2: u16 = 1571;
-    pub const PEQ_8_3: u16 = 1576;
-    pub const PEQ_8_4: u16 = 1581;
-    pub const PEQ_8_5: u16 = 1586;
-    pub const PEQ_8_6: u16 = 1591;
-    pub const PEQ_8_7: u16 = 1596;
-    pub const PEQ_8_8: u16 = 1601;
-    pub const PEQ_8_9: u16 = 1606;
-    pub const PEQ_8_10: u16 = 1611;
-    pub const BPF_8_1: u16 = 1616;
-    pub const BPF_8_5: u16 = 1636;
+    pub const POLARITY_OUT_16_0: u16 = 1565;
+    pub const PEQ_16_1: u16 = 1566;
+    pub const PEQ_16_2: u16 = 1571;
+    pub const PEQ_16_3: u16 = 1576;
+    pub const PEQ_16_4: u16 = 1581;
+    pub const PEQ_16_5: u16 = 1586;
+    pub const PEQ_16_6: u16 = 1591;
+    pub const PEQ_16_7: u16 = 1596;
+    pub const PEQ_16_8: u16 = 1601;
+    pub const PEQ_16_9: u16 = 1606;
+    pub const PEQ_16_10: u16 = 1611;
+    pub const BPF_16_1: u16 = 1616;
+    pub const BPF_16_5: u16 = 1636;
+    pub const PEQ_1_1: u16 = 1656;
+    pub const PEQ_1_2: u16 = 1661;
+    pub const PEQ_1_3: u16 = 1666;
+    pub const PEQ_1_4: u16 = 1671;
+    pub const PEQ_1_5: u16 = 1676;
+    pub const PEQ_1_6: u16 = 1681;
+    pub const PEQ_1_7: u16 = 1686;
+    pub const PEQ_1_8: u16 = 1691;
+    pub const PEQ_1_9: u16 = 1696;
+    pub const PEQ_1_10: u16 = 1701;
+    pub const PEQ_2_1: u16 = 1706;
+    pub const PEQ_2_2: u16 = 1711;
+    pub const PEQ_2_3: u16 = 1716;
+    pub const PEQ_2_4: u16 = 1721;
+    pub const PEQ_2_5: u16 = 1726;
+    pub const PEQ_2_6: u16 = 1731;
+    pub const PEQ_2_7: u16 = 1736;
+    pub const PEQ_2_8: u16 = 1741;
+    pub const PEQ_2_9: u16 = 1746;
+    pub const PEQ_2_10: u16 = 1751;
+    pub const PEQ_3_1: u16 = 1756;
+    pub const PEQ_3_2: u16 = 1761;
+    pub const PEQ_3_3: u16 = 1766;
+    pub const PEQ_3_4: u16 = 1771;
+    pub const PEQ_3_5: u16 = 1776;
+    pub const PEQ_3_6: u16 = 1781;
+    pub const PEQ_3_7: u16 = 1786;
+    pub const PEQ_3_8: u16 = 1791;
+    pub const PEQ_3_9: u16 = 1796;
+    pub const PEQ_3_10: u16 = 1801;
+    pub const PEQ_4_1: u16 = 1806;
+    pub const PEQ_4_2: u16 = 1811;
+    pub const PEQ_4_3: u16 = 1816;
+    pub const PEQ_4_4: u16 = 1821;
+    pub const PEQ_4_5: u16 = 1826;
+    pub const PEQ_4_6: u16 = 1831;
+    pub const PEQ_4_7: u16 = 1836;
+    pub const PEQ_4_8: u16 = 1841;
+    pub const PEQ_4_9: u16 = 1846;
+    pub const PEQ_4_10: u16 = 1851;
+    pub const PEQ_5_1: u16 = 1856;
+    pub const PEQ_5_2: u16 = 1861;
+    pub const PEQ_5_3: u16 = 1866;
+    pub const PEQ_5_4: u16 = 1871;
+    pub const PEQ_5_5: u16 = 1876;
+    pub const PEQ_5_6: u16 = 1881;
+    pub const PEQ_5_7: u16 = 1886;
+    pub const PEQ_5_8: u16 = 1891;
+    pub const PEQ_5_9: u16 = 1896;
+    pub const PEQ_5_10: u16 = 1901;
+    pub const PEQ_6_1: u16 = 1906;
+    pub const PEQ_6_2: u16 = 1911;
+    pub const PEQ_6_3: u16 = 1916;
+    pub const PEQ_6_4: u16 = 1921;
+    pub const PEQ_6_5: u16 = 1926;
+    pub const PEQ_6_6: u16 = 1931;
+    pub const PEQ_6_7: u16 = 1936;
+    pub const PEQ_6_8: u16 = 1941;
+    pub const PEQ_6_9: u16 = 1946;
+    pub const PEQ_6_10: u16 = 1951;
+    pub const PEQ_7_1: u16 = 1956;
+    pub const PEQ_7_2: u16 = 1961;
+    pub const PEQ_7_3: u16 = 1966;
+    pub const PEQ_7_4: u16 = 1971;
+    pub const PEQ_7_5: u16 = 1976;
+    pub const PEQ_7_6: u16 = 1981;
+    pub const PEQ_7_7: u16 = 1986;
+    pub const PEQ_7_8: u16 = 1991;
+    pub const PEQ_7_9: u16 = 1996;
+    pub const PEQ_7_10: u16 = 2001;
+    pub const PEQ_8_1: u16 = 2006;
+    pub const PEQ_8_2: u16 = 2011;
+    pub const PEQ_8_3: u16 = 2016;
+    pub const PEQ_8_4: u16 = 2021;
+    pub const PEQ_8_5: u16 = 2026;
+    pub const PEQ_8_6: u16 = 2031;
+    pub const PEQ_8_7: u16 = 2036;
+    pub const PEQ_8_8: u16 = 2041;
+    pub const PEQ_8_9: u16 = 2046;
+    pub const PEQ_8_10: u16 = 2051;
     #[cfg(feature = "symbols")]
     pub const SYMBOLS: &[(&str, u16)] = &[
         ("BM_BPF_ALL_1", BM_BPF_ALL_1),
@@ -1162,36 +1242,230 @@ pub mod sym {
         ("METER_D_OUT_6", METER_D_OUT_6),
         ("METER_D_OUT_7", METER_D_OUT_7),
         ("METER_D_OUT_8", METER_D_OUT_8),
-        ("METER_COMP_1", METER_COMP_1),
-        ("METER_COMP_2", METER_COMP_2),
-        ("METER_COMP_3", METER_COMP_3),
-        ("METER_COMP_4", METER_COMP_4),
-        ("METER_COMP_5", METER_COMP_5),
-        ("METER_COMP_6", METER_COMP_6),
-        ("METER_COMP_7", METER_COMP_7),
-        ("METER_COMP_8", METER_COMP_8),
-        ("METER_OUT_1", METER_OUT_1),
-        ("METER_OUT_2", METER_OUT_2),
-        ("METER_OUT_3", METER_OUT_3),
-        ("METER_OUT_4", METER_OUT_4),
-        ("METER_OUT_5", METER_OUT_5),
-        ("METER_OUT_6", METER_OUT_6),
-        ("METER_OUT_7", METER_OUT_7),
-        ("METER_OUT_8", METER_OUT_8),
-        ("D_GAIN_1_0_STATUS", D_GAIN_1_0_STATUS),
-        ("COMP_1_0_STATUS", COMP_1_0_STATUS),
-        ("D_GAIN_1_0", D_GAIN_1_0),
-        ("COMP_1_0_THRESHOLD", COMP_1_0_THRESHOLD),
-        ("COMP_1_0_GAIN", COMP_1_0_GAIN),
-        ("COMP_1_0_RATIO", COMP_1_0_RATIO),
-        ("COMP_1_0_KNEE", COMP_1_0_KNEE),
-        ("COMP_1_0_ATIME", COMP_1_0_ATIME),
-        ("COMP_1_0_RTIME", COMP_1_0_RTIME),
-        ("DELAY_1_0", DELAY_1_0),
+        ("METER_COMP_9", METER_COMP_9),
+        ("METER_COMP_10", METER_COMP_10),
+        ("METER_COMP_11", METER_COMP_11),
+        ("METER_COMP_12", METER_COMP_12),
+        ("METER_COMP_13", METER_COMP_13),
+        ("METER_COMP_14", METER_COMP_14),
+        ("METER_COMP_15", METER_COMP_15),
+        ("METER_COMP_16", METER_COMP_16),
+        ("METER_OUT_9", METER_OUT_9),
+        ("METER_OUT_10", METER_OUT_10),
+        ("METER_OUT_11", METER_OUT_11),
+        ("METER_OUT_12", METER_OUT_12),
+        ("METER_OUT_13", METER_OUT_13),
+        ("METER_OUT_14", METER_OUT_14),
+        ("METER_OUT_15", METER_OUT_15),
+        ("METER_OUT_16", METER_OUT_16),
+        ("D_GAIN_9_0_STATUS", D_GAIN_9_0_STATUS),
+        ("COMP_9_0_STATUS", COMP_9_0_STATUS),
+        ("D_GAIN_9_0", D_GAIN_9_0),
+        ("COMP_9_0_THRESHOLD", COMP_9_0_THRESHOLD),
+        ("COMP_9_0_GAIN", COMP_9_0_GAIN),
+        ("COMP_9_0_RATIO", COMP_9_0_RATIO),
+        ("COMP_9_0_KNEE", COMP_9_0_KNEE),
+        ("COMP_9_0_ATIME", COMP_9_0_ATIME),
+        ("COMP_9_0_RTIME", COMP_9_0_RTIME),
+        ("DELAY_9_0", DELAY_9_0),
         ("METER_1_0", METER_1_0),
         ("METER_1_1", METER_1_1),
         ("METER_1_2", METER_1_2),
-        ("POLARITY_OUT_1_0", POLARITY_OUT_1_0),
+        ("POLARITY_OUT_9_0", POLARITY_OUT_9_0),
+        ("PEQ_9_1", PEQ_9_1),
+        ("PEQ_9_2", PEQ_9_2),
+        ("PEQ_9_3", PEQ_9_3),
+        ("PEQ_9_4", PEQ_9_4),
+        ("PEQ_9_5", PEQ_9_5),
+        ("PEQ_9_6", PEQ_9_6),
+        ("PEQ_9_7", PEQ_9_7),
+        ("PEQ_9_8", PEQ_9_8),
+        ("PEQ_9_9", PEQ_9_9),
+        ("PEQ_9_10", PEQ_9_10),
+        ("BPF_9_1", BPF_9_1),
+        ("BPF_9_5", BPF_9_5),
+        ("D_GAIN_10_0_STATUS", D_GAIN_10_0_STATUS),
+        ("COMP_10_0_STATUS", COMP_10_0_STATUS),
+        ("D_GAIN_10_0", D_GAIN_10_0),
+        ("COMP_10_0_THRESHOLD", COMP_10_0_THRESHOLD),
+        ("COMP_10_0_GAIN", COMP_10_0_GAIN),
+        ("COMP_10_0_RATIO", COMP_10_0_RATIO),
+        ("COMP_10_0_KNEE", COMP_10_0_KNEE),
+        ("COMP_10_0_ATIME", COMP_10_0_ATIME),
+        ("COMP_10_0_RTIME", COMP_10_0_RTIME),
+        ("DELAY_10_0", DELAY_10_0),
+        ("METER_2_0", METER_2_0),
+        ("METER_2_1", METER_2_1),
+        ("METER_2_2", METER_2_2),
+        ("POLARITY_OUT_10_0", POLARITY_OUT_10_0),
+        ("PEQ_10_1", PEQ_10_1),
+        ("PEQ_10_2", PEQ_10_2),
+        ("PEQ_10_3", PEQ_10_3),
+        ("PEQ_10_4", PEQ_10_4),
+        ("PEQ_10_5", PEQ_10_5),
+        ("PEQ_10_6", PEQ_10_6),
+        ("PEQ_10_7", PEQ_10_7),
+        ("PEQ_10_8", PEQ_10_8),
+        ("PEQ_10_9", PEQ_10_9),
+        ("PEQ_10_10", PEQ_10_10),
+        ("BPF_10_1", BPF_10_1),
+        ("BPF_10_5", BPF_10_5),
+        ("D_GAIN_11_0_STATUS", D_GAIN_11_0_STATUS),
+        ("COMP_11_0_STATUS", COMP_11_0_STATUS),
+        ("D_GAIN_11_0", D_GAIN_11_0),
+        ("COMP_11_0_THRESHOLD", COMP_11_0_THRESHOLD),
+        ("COMP_11_0_GAIN", COMP_11_0_GAIN),
+        ("COMP_11_0_RATIO", COMP_11_0_RATIO),
+        ("COMP_11_0_KNEE", COMP_11_0_KNEE),
+        ("COMP_11_0_ATIME", COMP_11_0_ATIME),
+        ("COMP_11_0_RTIME", COMP_11_0_RTIME),
+        ("DELAY_11_0", DELAY_11_0),
+        ("METER_3_0", METER_3_0),
+        ("METER_3_1", METER_3_1),
+        ("METER_3_2", METER_3_2),
+        ("POLARITY_OUT_11_0", POLARITY_OUT_11_0),
+        ("PEQ_11_1", PEQ_11_1),
+        ("PEQ_11_2", PEQ_11_2),
+        ("PEQ_11_3", PEQ_11_3),
+        ("PEQ_11_4", PEQ_11_4),
+        ("PEQ_11_5", PEQ_11_5),
+        ("PEQ_11_6", PEQ_11_6),
+        ("PEQ_11_7", PEQ_11_7),
+        ("PEQ_11_8", PEQ_11_8),
+        ("PEQ_11_9", PEQ_11_9),
+        ("PEQ_11_10", PEQ_11_10),
+        ("BPF_11_1", BPF_11_1),
+        ("BPF_11_5", BPF_11_5),
+        ("D_GAIN_12_0_STATUS", D_GAIN_12_0_STATUS),
+        ("COMP_12_0_STATUS", COMP_12_0_STATUS),
+        ("D_GAIN_12_0", D_GAIN_12_0),
+        ("COMP_12_0_THRESHOLD", COMP_12_0_THRESHOLD),
+        ("COMP_12_0_GAIN", COMP_12_0_GAIN),
+        ("COMP_12_0_RATIO", COMP_12_0_RATIO),
+        ("COMP_12_0_KNEE", COMP_12_0_KNEE),
+        ("COMP_12_0_ATIME", COMP_12_0_ATIME),
+        ("COMP_12_0_RTIME", COMP_12_0_RTIME),
+        ("DELAY_12_0", DELAY_12_0),
+        ("METER_4_0", METER_4_0),
+        ("METER_4_1", METER_4_1),
+        ("METER_4_2", METER_4_2),
+        ("POLARITY_OUT_12_0", POLARITY_OUT_12_0),
+        ("PEQ_12_1", PEQ_12_1),
+        ("PEQ_12_2", PEQ_12_2),
+        ("PEQ_12_3", PEQ_12_3),
+        ("PEQ_12_4", PEQ_12_4),
+        ("PEQ_12_5", PEQ_12_5),
+        ("PEQ_12_6", PEQ_12_6),
+        ("PEQ_12_7", PEQ_12_7),
+        ("PEQ_12_8", PEQ_12_8),
+        ("PEQ_12_9", PEQ_12_9),
+        ("PEQ_12_10", PEQ_12_10),
+        ("BPF_12_1", BPF_12_1),
+        ("BPF_12_5", BPF_12_5),
+        ("D_GAIN_13_0_STATUS", D_GAIN_13_0_STATUS),
+        ("COMP_13_0_STATUS", COMP_13_0_STATUS),
+        ("D_GAIN_13_0", D_GAIN_13_0),
+        ("COMP_13_0_THRESHOLD", COMP_13_0_THRESHOLD),
+        ("COMP_13_0_GAIN", COMP_13_0_GAIN),
+        ("COMP_13_0_RATIO", COMP_13_0_RATIO),
+        ("COMP_13_0_KNEE", COMP_13_0_KNEE),
+        ("COMP_13_0_ATIME", COMP_13_0_ATIME),
+        ("COMP_13_0_RTIME", COMP_13_0_RTIME),
+        ("DELAY_13_0", DELAY_13_0),
+        ("METER_5_0", METER_5_0),
+        ("METER_5_1", METER_5_1),
+        ("METER_5_2", METER_5_2),
+        ("POLARITY_OUT_13_0", POLARITY_OUT_13_0),
+        ("PEQ_13_1", PEQ_13_1),
+        ("PEQ_13_2", PEQ_13_2),
+        ("PEQ_13_3", PEQ_13_3),
+        ("PEQ_13_4", PEQ_13_4),
+        ("PEQ_13_5", PEQ_13_5),
+        ("PEQ_13_6", PEQ_13_6),
+        ("PEQ_13_7", PEQ_13_7),
+        ("PEQ_13_8", PEQ_13_8),
+        ("PEQ_13_9", PEQ_13_9),
+        ("PEQ_13_10", PEQ_13_10),
+        ("BPF_13_1", BPF_13_1),
+        ("BPF_13_5", BPF_13_5),
+        ("D_GAIN_14_0_STATUS", D_GAIN_14_0_STATUS),
+        ("COMP_14_0_STATUS", COMP_14_0_STATUS),
+        ("D_GAIN_14_0", D_GAIN_14_0),
+        ("COMP_14_0_THRESHOLD", COMP_14_0_THRESHOLD),
+        ("COMP_14_0_GAIN", COMP_14_0_GAIN),
+        ("COMP_14_0_RATIO", COMP_14_0_RATIO),
+        ("COMP_14_0_KNEE", COMP_14_0_KNEE),
+        ("COMP_14_0_ATIME", COMP_14_0_ATIME),
+        ("COMP_14_0_RTIME", COMP_14_0_RTIME),
+        ("DELAY_14_0", DELAY_14_0),
+        ("METER_6_0", METER_6_0),
+        ("METER_6_1", METER_6_1),
+        ("METER_6_2", METER_6_2),
+        ("POLARITY_OUT_14_0", POLARITY_OUT_14_0),
+        ("PEQ_14_1", PEQ_14_1),
+        ("PEQ_14_2", PEQ_14_2),
+        ("PEQ_14_3", PEQ_14_3),
+        ("PEQ_14_4", PEQ_14_4),
+        ("PEQ_14_5", PEQ_14_5),
+        ("PEQ_14_6", PEQ_14_6),
+        ("PEQ_14_7", PEQ_14_7),
+        ("PEQ_14_8", PEQ_14_8),
+        ("PEQ_14_9", PEQ_14_9),
+        ("PEQ_14_10", PEQ_14_10),
+        ("BPF_14_1", BPF_14_1),
+        ("BPF_14_5", BPF_14_5),
+        ("D_GAIN_15_0_STATUS", D_GAIN_15_0_STATUS),
+        ("COMP_15_0_STATUS", COMP_15_0_STATUS),
+        ("D_GAIN_15_0", D_GAIN_15_0),
+        ("COMP_15_0_THRESHOLD", COMP_15_0_THRESHOLD),
+        ("COMP_15_0_GAIN", COMP_15_0_GAIN),
+        ("COMP_15_0_RATIO", COMP_15_0_RATIO),
+        ("COMP_15_0_KNEE", COMP_15_0_KNEE),
+        ("COMP_15_0_ATIME", COMP_15_0_ATIME),
+        ("COMP_15_0_RTIME", COMP_15_0_RTIME),
+        ("DELAY_15_0", DELAY_15_0),
+        ("METER_7_0", METER_7_0),
+        ("METER_7_1", METER_7_1),
+        ("METER_7_2", METER_7_2),
+        ("POLARITY_OUT_15_0", POLARITY_OUT_15_0),
+        ("PEQ_15_1", PEQ_15_1),
+        ("PEQ_15_2", PEQ_15_2),
+        ("PEQ_15_3", PEQ_15_3),
+        ("PEQ_15_4", PEQ_15_4),
+        ("PEQ_15_5", PEQ_15_5),
+        ("PEQ_15_6", PEQ_15_6),
+        ("PEQ_15_7", PEQ_15_7),
+        ("PEQ_15_8", PEQ_15_8),
+        ("PEQ_15_9", PEQ_15_9),
+        ("PEQ_15_10", PEQ_15_10),
+        ("BPF_15_1", BPF_15_1),
+        ("BPF_15_5", BPF_15_5),
+        ("D_GAIN_16_0_STATUS", D_GAIN_16_0_STATUS),
+        ("COMP_16_0_STATUS", COMP_16_0_STATUS),
+        ("D_GAIN_16_0", D_GAIN_16_0),
+        ("COMP_16_0_THRESHOLD", COMP_16_0_THRESHOLD),
+        ("COMP_16_0_GAIN", COMP_16_0_GAIN),
+        ("COMP_16_0_RATIO", COMP_16_0_RATIO),
+        ("COMP_16_0_KNEE", COMP_16_0_KNEE),
+        ("COMP_16_0_ATIME", COMP_16_0_ATIME),
+        ("COMP_16_0_RTIME", COMP_16_0_RTIME),
+        ("DELAY_16_0", DELAY_16_0),
+        ("METER_8_0", METER_8_0),
+        ("METER_8_1", METER_8_1),
+        ("METER_8_2", METER_8_2),
+        ("POLARITY_OUT_16_0", POLARITY_OUT_16_0),
+        ("PEQ_16_1", PEQ_16_1),
+        ("PEQ_16_2", PEQ_16_2),
+        ("PEQ_16_3", PEQ_16_3),
+        ("PEQ_16_4", PEQ_16_4),
+        ("PEQ_16_5", PEQ_16_5),
+        ("PEQ_16_6", PEQ_16_6),
+        ("PEQ_16_7", PEQ_16_7),
+        ("PEQ_16_8", PEQ_16_8),
+        ("PEQ_16_9", PEQ_16_9),
+        ("PEQ_16_10", PEQ_16_10),
+        ("BPF_16_1", BPF_16_1),
+        ("BPF_16_5", BPF_16_5),
         ("PEQ_1_1", PEQ_1_1),
         ("PEQ_1_2", PEQ_1_2),
         ("PEQ_1_3", PEQ_1_3),
@@ -1202,22 +1476,6 @@ pub mod sym {
         ("PEQ_1_8", PEQ_1_8),
         ("PEQ_1_9", PEQ_1_9),
         ("PEQ_1_10", PEQ_1_10),
-        ("BPF_1_1", BPF_1_1),
-        ("BPF_1_5", BPF_1_5),
-        ("D_GAIN_2_0_STATUS", D_GAIN_2_0_STATUS),
-        ("COMP_2_0_STATUS", COMP_2_0_STATUS),
-        ("D_GAIN_2_0", D_GAIN_2_0),
-        ("COMP_2_0_THRESHOLD", COMP_2_0_THRESHOLD),
-        ("COMP_2_0_GAIN", COMP_2_0_GAIN),
-        ("COMP_2_0_RATIO", COMP_2_0_RATIO),
-        ("COMP_2_0_KNEE", COMP_2_0_KNEE),
-        ("COMP_2_0_ATIME", COMP_2_0_ATIME),
-        ("COMP_2_0_RTIME", COMP_2_0_RTIME),
-        ("DELAY_2_0", DELAY_2_0),
-        ("METER_2_0", METER_2_0),
-        ("METER_2_1", METER_2_1),
-        ("METER_2_2", METER_2_2),
-        ("POLARITY_OUT_2_0", POLARITY_OUT_2_0),
         ("PEQ_2_1", PEQ_2_1),
         ("PEQ_2_2", PEQ_2_2),
         ("PEQ_2_3", PEQ_2_3),
@@ -1228,22 +1486,6 @@ pub mod sym {
         ("PEQ_2_8", PEQ_2_8),
         ("PEQ_2_9", PEQ_2_9),
         ("PEQ_2_10", PEQ_2_10),
-        ("BPF_2_1", BPF_2_1),
-        ("BPF_2_5", BPF_2_5),
-        ("D_GAIN_3_0_STATUS", D_GAIN_3_0_STATUS),
-        ("COMP_3_0_STATUS", COMP_3_0_STATUS),
-        ("D_GAIN_3_0", D_GAIN_3_0),
-        ("COMP_3_0_THRESHOLD", COMP_3_0_THRESHOLD),
-        ("COMP_3_0_GAIN", COMP_3_0_GAIN),
-        ("COMP_3_0_RATIO", COMP_3_0_RATIO),
-        ("COMP_3_0_KNEE", COMP_3_0_KNEE),
-        ("COMP_3_0_ATIME", COMP_3_0_ATIME),
-        ("COMP_3_0_RTIME", COMP_3_0_RTIME),
-        ("DELAY_3_0", DELAY_3_0),
-        ("METER_3_0", METER_3_0),
-        ("METER_3_1", METER_3_1),
-        ("METER_3_2", METER_3_2),
-        ("POLARITY_OUT_3_0", POLARITY_OUT_3_0),
         ("PEQ_3_1", PEQ_3_1),
         ("PEQ_3_2", PEQ_3_2),
         ("PEQ_3_3", PEQ_3_3),
@@ -1254,22 +1496,6 @@ pub mod sym {
         ("PEQ_3_8", PEQ_3_8),
         ("PEQ_3_9", PEQ_3_9),
         ("PEQ_3_10", PEQ_3_10),
-        ("BPF_3_1", BPF_3_1),
-        ("BPF_3_5", BPF_3_5),
-        ("D_GAIN_4_0_STATUS", D_GAIN_4_0_STATUS),
-        ("COMP_4_0_STATUS", COMP_4_0_STATUS),
-        ("D_GAIN_4_0", D_GAIN_4_0),
-        ("COMP_4_0_THRESHOLD", COMP_4_0_THRESHOLD),
-        ("COMP_4_0_GAIN", COMP_4_0_GAIN),
-        ("COMP_4_0_RATIO", COMP_4_0_RATIO),
-        ("COMP_4_0_KNEE", COMP_4_0_KNEE),
-        ("COMP_4_0_ATIME", COMP_4_0_ATIME),
-        ("COMP_4_0_RTIME", COMP_4_0_RTIME),
-        ("DELAY_4_0", DELAY_4_0),
-        ("METER_4_0", METER_4_0),
-        ("METER_4_1", METER_4_1),
-        ("METER_4_2", METER_4_2),
-        ("POLARITY_OUT_4_0", POLARITY_OUT_4_0),
         ("PEQ_4_1", PEQ_4_1),
         ("PEQ_4_2", PEQ_4_2),
         ("PEQ_4_3", PEQ_4_3),
@@ -1280,22 +1506,6 @@ pub mod sym {
         ("PEQ_4_8", PEQ_4_8),
         ("PEQ_4_9", PEQ_4_9),
         ("PEQ_4_10", PEQ_4_10),
-        ("BPF_4_1", BPF_4_1),
-        ("BPF_4_5", BPF_4_5),
-        ("D_GAIN_5_0_STATUS", D_GAIN_5_0_STATUS),
-        ("COMP_5_0_STATUS", COMP_5_0_STATUS),
-        ("D_GAIN_5_0", D_GAIN_5_0),
-        ("COMP_5_0_THRESHOLD", COMP_5_0_THRESHOLD),
-        ("COMP_5_0_GAIN", COMP_5_0_GAIN),
-        ("COMP_5_0_RATIO", COMP_5_0_RATIO),
-        ("COMP_5_0_KNEE", COMP_5_0_KNEE),
-        ("COMP_5_0_ATIME", COMP_5_0_ATIME),
-        ("COMP_5_0_RTIME", COMP_5_0_RTIME),
-        ("DELAY_5_0", DELAY_5_0),
-        ("METER_5_0", METER_5_0),
-        ("METER_5_1", METER_5_1),
-        ("METER_5_2", METER_5_2),
-        ("POLARITY_OUT_5_0", POLARITY_OUT_5_0),
         ("PEQ_5_1", PEQ_5_1),
         ("PEQ_5_2", PEQ_5_2),
         ("PEQ_5_3", PEQ_5_3),
@@ -1306,22 +1516,6 @@ pub mod sym {
         ("PEQ_5_8", PEQ_5_8),
         ("PEQ_5_9", PEQ_5_9),
         ("PEQ_5_10", PEQ_5_10),
-        ("BPF_5_1", BPF_5_1),
-        ("BPF_5_5", BPF_5_5),
-        ("D_GAIN_6_0_STATUS", D_GAIN_6_0_STATUS),
-        ("COMP_6_0_STATUS", COMP_6_0_STATUS),
-        ("D_GAIN_6_0", D_GAIN_6_0),
-        ("COMP_6_0_THRESHOLD", COMP_6_0_THRESHOLD),
-        ("COMP_6_0_GAIN", COMP_6_0_GAIN),
-        ("COMP_6_0_RATIO", COMP_6_0_RATIO),
-        ("COMP_6_0_KNEE", COMP_6_0_KNEE),
-        ("COMP_6_0_ATIME", COMP_6_0_ATIME),
-        ("COMP_6_0_RTIME", COMP_6_0_RTIME),
-        ("DELAY_6_0", DELAY_6_0),
-        ("METER_6_0", METER_6_0),
-        ("METER_6_1", METER_6_1),
-        ("METER_6_2", METER_6_2),
-        ("POLARITY_OUT_6_0", POLARITY_OUT_6_0),
         ("PEQ_6_1", PEQ_6_1),
         ("PEQ_6_2", PEQ_6_2),
         ("PEQ_6_3", PEQ_6_3),
@@ -1332,22 +1526,6 @@ pub mod sym {
         ("PEQ_6_8", PEQ_6_8),
         ("PEQ_6_9", PEQ_6_9),
         ("PEQ_6_10", PEQ_6_10),
-        ("BPF_6_1", BPF_6_1),
-        ("BPF_6_5", BPF_6_5),
-        ("D_GAIN_7_0_STATUS", D_GAIN_7_0_STATUS),
-        ("COMP_7_0_STATUS", COMP_7_0_STATUS),
-        ("D_GAIN_7_0", D_GAIN_7_0),
-        ("COMP_7_0_THRESHOLD", COMP_7_0_THRESHOLD),
-        ("COMP_7_0_GAIN", COMP_7_0_GAIN),
-        ("COMP_7_0_RATIO", COMP_7_0_RATIO),
-        ("COMP_7_0_KNEE", COMP_7_0_KNEE),
-        ("COMP_7_0_ATIME", COMP_7_0_ATIME),
-        ("COMP_7_0_RTIME", COMP_7_0_RTIME),
-        ("DELAY_7_0", DELAY_7_0),
-        ("METER_7_0", METER_7_0),
-        ("METER_7_1", METER_7_1),
-        ("METER_7_2", METER_7_2),
-        ("POLARITY_OUT_7_0", POLARITY_OUT_7_0),
         ("PEQ_7_1", PEQ_7_1),
         ("PEQ_7_2", PEQ_7_2),
         ("PEQ_7_3", PEQ_7_3),
@@ -1358,22 +1536,6 @@ pub mod sym {
         ("PEQ_7_8", PEQ_7_8),
         ("PEQ_7_9", PEQ_7_9),
         ("PEQ_7_10", PEQ_7_10),
-        ("BPF_7_1", BPF_7_1),
-        ("BPF_7_5", BPF_7_5),
-        ("D_GAIN_8_0_STATUS", D_GAIN_8_0_STATUS),
-        ("COMP_8_0_STATUS", COMP_8_0_STATUS),
-        ("D_GAIN_8_0", D_GAIN_8_0),
-        ("COMP_8_0_THRESHOLD", COMP_8_0_THRESHOLD),
-        ("COMP_8_0_GAIN", COMP_8_0_GAIN),
-        ("COMP_8_0_RATIO", COMP_8_0_RATIO),
-        ("COMP_8_0_KNEE", COMP_8_0_KNEE),
-        ("COMP_8_0_ATIME", COMP_8_0_ATIME),
-        ("COMP_8_0_RTIME", COMP_8_0_RTIME),
-        ("DELAY_8_0", DELAY_8_0),
-        ("METER_8_0", METER_8_0),
-        ("METER_8_1", METER_8_1),
-        ("METER_8_2", METER_8_2),
-        ("POLARITY_OUT_8_0", POLARITY_OUT_8_0),
         ("PEQ_8_1", PEQ_8_1),
         ("PEQ_8_2", PEQ_8_2),
         ("PEQ_8_3", PEQ_8_3),
@@ -1384,8 +1546,6 @@ pub mod sym {
         ("PEQ_8_8", PEQ_8_8),
         ("PEQ_8_9", PEQ_8_9),
         ("PEQ_8_10", PEQ_8_10),
-        ("BPF_8_1", BPF_8_1),
-        ("BPF_8_5", BPF_8_5),
     ];
 }
 #[allow(unused_imports)]
@@ -1434,7 +1594,10 @@ pub const DEVICE: Device = Device {
                     gain: Some(BM_MIXER_1_8),
                 },
             ],
-            peq: &[],
+            peq: &[
+                PEQ_1_10, PEQ_1_9, PEQ_1_8, PEQ_1_7, PEQ_1_6, PEQ_1_5, PEQ_1_4, PEQ_1_3, PEQ_1_2,
+                PEQ_1_1,
+            ],
         },
         Input {
             gate: Some(Gate {
@@ -1476,7 +1639,10 @@ pub const DEVICE: Device = Device {
                     gain: Some(BM_MIXER_2_8),
                 },
             ],
-            peq: &[],
+            peq: &[
+                PEQ_2_10, PEQ_2_9, PEQ_2_8, PEQ_2_7, PEQ_2_6, PEQ_2_5, PEQ_2_4, PEQ_2_3, PEQ_2_2,
+                PEQ_2_1,
+            ],
         },
         Input {
             gate: Some(Gate {
@@ -1518,7 +1684,10 @@ pub const DEVICE: Device = Device {
                     gain: Some(BM_MIXER_3_8),
                 },
             ],
-            peq: &[],
+            peq: &[
+                PEQ_3_10, PEQ_3_9, PEQ_3_8, PEQ_3_7, PEQ_3_6, PEQ_3_5, PEQ_3_4, PEQ_3_3, PEQ_3_2,
+                PEQ_3_1,
+            ],
         },
         Input {
             gate: Some(Gate {
@@ -1560,7 +1729,10 @@ pub const DEVICE: Device = Device {
                     gain: Some(BM_MIXER_4_8),
                 },
             ],
-            peq: &[],
+            peq: &[
+                PEQ_4_10, PEQ_4_9, PEQ_4_8, PEQ_4_7, PEQ_4_6, PEQ_4_5, PEQ_4_4, PEQ_4_3, PEQ_4_2,
+                PEQ_4_1,
+            ],
         },
         Input {
             gate: Some(Gate {
@@ -1602,7 +1774,10 @@ pub const DEVICE: Device = Device {
                     gain: Some(BM_MIXER_5_8),
                 },
             ],
-            peq: &[],
+            peq: &[
+                PEQ_5_10, PEQ_5_9, PEQ_5_8, PEQ_5_7, PEQ_5_6, PEQ_5_5, PEQ_5_4, PEQ_5_3, PEQ_5_2,
+                PEQ_5_1,
+            ],
         },
         Input {
             gate: Some(Gate {
@@ -1644,7 +1819,10 @@ pub const DEVICE: Device = Device {
                     gain: Some(BM_MIXER_6_8),
                 },
             ],
-            peq: &[],
+            peq: &[
+                PEQ_6_10, PEQ_6_9, PEQ_6_8, PEQ_6_7, PEQ_6_6, PEQ_6_5, PEQ_6_4, PEQ_6_3, PEQ_6_2,
+                PEQ_6_1,
+            ],
         },
         Input {
             gate: Some(Gate {
@@ -1686,7 +1864,10 @@ pub const DEVICE: Device = Device {
                     gain: Some(BM_MIXER_7_8),
                 },
             ],
-            peq: &[],
+            peq: &[
+                PEQ_7_10, PEQ_7_9, PEQ_7_8, PEQ_7_7, PEQ_7_6, PEQ_7_5, PEQ_7_4, PEQ_7_3, PEQ_7_2,
+                PEQ_7_1,
+            ],
         },
         Input {
             gate: Some(Gate {
@@ -1728,207 +1909,186 @@ pub const DEVICE: Device = Device {
                     gain: Some(BM_MIXER_8_8),
                 },
             ],
-            peq: &[],
+            peq: &[
+                PEQ_8_10, PEQ_8_9, PEQ_8_8, PEQ_8_7, PEQ_8_6, PEQ_8_5, PEQ_8_4, PEQ_8_3, PEQ_8_2,
+                PEQ_8_1,
+            ],
         },
     ],
     outputs: &[
         Output {
             gate: Gate {
-                enable: D_GAIN_1_0_STATUS,
-                gain: Some(D_GAIN_1_0),
+                enable: D_GAIN_9_0_STATUS,
+                gain: Some(D_GAIN_9_0),
             },
-            meter: Some(METER_OUT_1),
-            delay_addr: Some(DELAY_1_0),
-            invert_addr: POLARITY_OUT_1_0,
-            peq: &[
-                PEQ_1_10, PEQ_1_9, PEQ_1_8, PEQ_1_7, PEQ_1_6, PEQ_1_5, PEQ_1_4, PEQ_1_3, PEQ_1_2,
-                PEQ_1_1,
-            ],
+            meter: Some(METER_OUT_9),
+            delay_addr: Some(DELAY_9_0),
+            invert_addr: POLARITY_OUT_9_0,
+            peq: &[],
             xover: Some(Crossover {
-                peqs: &[BPF_1_1, BPF_1_5, BM_BPF_1_1, BM_BPF_1_5],
+                peqs: &[BPF_9_1, BPF_9_5, BM_BPF_1_1, BM_BPF_1_5],
             }),
             compressor: Some(Compressor {
-                bypass: COMP_1_0_STATUS,
-                threshold: COMP_1_0_THRESHOLD,
-                ratio: COMP_1_0_RATIO,
-                attack: COMP_1_0_ATIME,
-                release: COMP_1_0_RTIME,
-                meter: Some(METER_COMP_1),
+                bypass: COMP_9_0_STATUS,
+                threshold: COMP_9_0_THRESHOLD,
+                ratio: COMP_9_0_RATIO,
+                attack: COMP_9_0_ATIME,
+                release: COMP_9_0_RTIME,
+                meter: Some(METER_COMP_9),
             }),
             fir: None,
         },
         Output {
             gate: Gate {
-                enable: D_GAIN_2_0_STATUS,
-                gain: Some(D_GAIN_2_0),
+                enable: D_GAIN_10_0_STATUS,
+                gain: Some(D_GAIN_10_0),
             },
-            meter: Some(METER_OUT_2),
-            delay_addr: Some(DELAY_2_0),
-            invert_addr: POLARITY_OUT_2_0,
-            peq: &[
-                PEQ_2_10, PEQ_2_9, PEQ_2_8, PEQ_2_7, PEQ_2_6, PEQ_2_5, PEQ_2_4, PEQ_2_3, PEQ_2_2,
-                PEQ_2_1,
-            ],
+            meter: Some(METER_OUT_10),
+            delay_addr: Some(DELAY_10_0),
+            invert_addr: POLARITY_OUT_10_0,
+            peq: &[],
             xover: Some(Crossover {
-                peqs: &[BPF_2_1, BPF_2_5, BM_BPF_2_1, BM_BPF_2_5],
+                peqs: &[BPF_10_1, BPF_10_5, BM_BPF_2_1, BM_BPF_2_5],
             }),
             compressor: Some(Compressor {
-                bypass: COMP_2_0_STATUS,
-                threshold: COMP_2_0_THRESHOLD,
-                ratio: COMP_2_0_RATIO,
-                attack: COMP_2_0_ATIME,
-                release: COMP_2_0_RTIME,
-                meter: Some(METER_COMP_2),
+                bypass: COMP_10_0_STATUS,
+                threshold: COMP_10_0_THRESHOLD,
+                ratio: COMP_10_0_RATIO,
+                attack: COMP_10_0_ATIME,
+                release: COMP_10_0_RTIME,
+                meter: Some(METER_COMP_10),
             }),
             fir: None,
         },
         Output {
             gate: Gate {
-                enable: D_GAIN_3_0_STATUS,
-                gain: Some(D_GAIN_3_0),
+                enable: D_GAIN_11_0_STATUS,
+                gain: Some(D_GAIN_11_0),
             },
-            meter: Some(METER_OUT_3),
-            delay_addr: Some(DELAY_3_0),
-            invert_addr: POLARITY_OUT_3_0,
-            peq: &[
-                PEQ_3_10, PEQ_3_9, PEQ_3_8, PEQ_3_7, PEQ_3_6, PEQ_3_5, PEQ_3_4, PEQ_3_3, PEQ_3_2,
-                PEQ_3_1,
-            ],
+            meter: Some(METER_OUT_11),
+            delay_addr: Some(DELAY_11_0),
+            invert_addr: POLARITY_OUT_11_0,
+            peq: &[],
             xover: Some(Crossover {
-                peqs: &[BPF_3_1, BPF_3_5, BM_BPF_3_1, BM_BPF_3_5],
+                peqs: &[BPF_11_1, BPF_11_5, BM_BPF_3_1, BM_BPF_3_5],
             }),
             compressor: Some(Compressor {
-                bypass: COMP_3_0_STATUS,
-                threshold: COMP_3_0_THRESHOLD,
-                ratio: COMP_3_0_RATIO,
-                attack: COMP_3_0_ATIME,
-                release: COMP_3_0_RTIME,
-                meter: Some(METER_COMP_3),
+                bypass: COMP_11_0_STATUS,
+                threshold: COMP_11_0_THRESHOLD,
+                ratio: COMP_11_0_RATIO,
+                attack: COMP_11_0_ATIME,
+                release: COMP_11_0_RTIME,
+                meter: Some(METER_COMP_11),
             }),
             fir: None,
         },
         Output {
             gate: Gate {
-                enable: D_GAIN_4_0_STATUS,
-                gain: Some(D_GAIN_4_0),
+                enable: D_GAIN_12_0_STATUS,
+                gain: Some(D_GAIN_12_0),
             },
-            meter: Some(METER_OUT_4),
-            delay_addr: Some(DELAY_4_0),
-            invert_addr: POLARITY_OUT_4_0,
-            peq: &[
-                PEQ_4_10, PEQ_4_9, PEQ_4_8, PEQ_4_7, PEQ_4_6, PEQ_4_5, PEQ_4_4, PEQ_4_3, PEQ_4_2,
-                PEQ_4_1,
-            ],
+            meter: Some(METER_OUT_12),
+            delay_addr: Some(DELAY_12_0),
+            invert_addr: POLARITY_OUT_12_0,
+            peq: &[],
             xover: Some(Crossover {
-                peqs: &[BPF_4_1, BPF_4_5, BM_BPF_4_1, BM_BPF_4_5],
+                peqs: &[BPF_12_1, BPF_12_5, BM_BPF_4_1, BM_BPF_4_5],
             }),
             compressor: Some(Compressor {
-                bypass: COMP_4_0_STATUS,
-                threshold: COMP_4_0_THRESHOLD,
-                ratio: COMP_4_0_RATIO,
-                attack: COMP_4_0_ATIME,
-                release: COMP_4_0_RTIME,
-                meter: Some(METER_COMP_4),
+                bypass: COMP_12_0_STATUS,
+                threshold: COMP_12_0_THRESHOLD,
+                ratio: COMP_12_0_RATIO,
+                attack: COMP_12_0_ATIME,
+                release: COMP_12_0_RTIME,
+                meter: Some(METER_COMP_12),
             }),
             fir: None,
         },
         Output {
             gate: Gate {
-                enable: D_GAIN_5_0_STATUS,
-                gain: Some(D_GAIN_5_0),
+                enable: D_GAIN_13_0_STATUS,
+                gain: Some(D_GAIN_13_0),
             },
-            meter: Some(METER_OUT_5),
-            delay_addr: Some(DELAY_5_0),
-            invert_addr: POLARITY_OUT_5_0,
-            peq: &[
-                PEQ_5_10, PEQ_5_9, PEQ_5_8, PEQ_5_7, PEQ_5_6, PEQ_5_5, PEQ_5_4, PEQ_5_3, PEQ_5_2,
-                PEQ_5_1,
-            ],
+            meter: Some(METER_OUT_13),
+            delay_addr: Some(DELAY_13_0),
+            invert_addr: POLARITY_OUT_13_0,
+            peq: &[],
             xover: Some(Crossover {
-                peqs: &[BPF_5_1, BPF_5_5, BM_BPF_5_1, BM_BPF_5_5],
+                peqs: &[BPF_13_1, BPF_13_5, BM_BPF_5_1, BM_BPF_5_5],
             }),
             compressor: Some(Compressor {
-                bypass: COMP_5_0_STATUS,
-                threshold: COMP_5_0_THRESHOLD,
-                ratio: COMP_5_0_RATIO,
-                attack: COMP_5_0_ATIME,
-                release: COMP_5_0_RTIME,
-                meter: Some(METER_COMP_5),
+                bypass: COMP_13_0_STATUS,
+                threshold: COMP_13_0_THRESHOLD,
+                ratio: COMP_13_0_RATIO,
+                attack: COMP_13_0_ATIME,
+                release: COMP_13_0_RTIME,
+                meter: Some(METER_COMP_13),
             }),
             fir: None,
         },
         Output {
             gate: Gate {
-                enable: D_GAIN_6_0_STATUS,
-                gain: Some(D_GAIN_6_0),
+                enable: D_GAIN_14_0_STATUS,
+                gain: Some(D_GAIN_14_0),
             },
-            meter: Some(METER_OUT_6),
-            delay_addr: Some(DELAY_6_0),
-            invert_addr: POLARITY_OUT_6_0,
-            peq: &[
-                PEQ_6_10, PEQ_6_9, PEQ_6_8, PEQ_6_7, PEQ_6_6, PEQ_6_5, PEQ_6_4, PEQ_6_3, PEQ_6_2,
-                PEQ_6_1,
-            ],
+            meter: Some(METER_OUT_14),
+            delay_addr: Some(DELAY_14_0),
+            invert_addr: POLARITY_OUT_14_0,
+            peq: &[],
             xover: Some(Crossover {
-                peqs: &[BPF_6_1, BPF_6_5, BM_BPF_6_1, BM_BPF_6_5],
+                peqs: &[BPF_14_1, BPF_14_5, BM_BPF_6_1, BM_BPF_6_5],
             }),
             compressor: Some(Compressor {
-                bypass: COMP_6_0_STATUS,
-                threshold: COMP_6_0_THRESHOLD,
-                ratio: COMP_6_0_RATIO,
-                attack: COMP_6_0_ATIME,
-                release: COMP_6_0_RTIME,
-                meter: Some(METER_COMP_6),
+                bypass: COMP_14_0_STATUS,
+                threshold: COMP_14_0_THRESHOLD,
+                ratio: COMP_14_0_RATIO,
+                attack: COMP_14_0_ATIME,
+                release: COMP_14_0_RTIME,
+                meter: Some(METER_COMP_14),
             }),
             fir: None,
         },
         Output {
             gate: Gate {
-                enable: D_GAIN_7_0_STATUS,
-                gain: Some(D_GAIN_7_0),
+                enable: D_GAIN_15_0_STATUS,
+                gain: Some(D_GAIN_15_0),
             },
-            meter: Some(METER_OUT_7),
-            delay_addr: Some(DELAY_7_0),
-            invert_addr: POLARITY_OUT_7_0,
-            peq: &[
-                PEQ_7_10, PEQ_7_9, PEQ_7_8, PEQ_7_7, PEQ_7_6, PEQ_7_5, PEQ_7_4, PEQ_7_3, PEQ_7_2,
-                PEQ_7_1,
-            ],
+            meter: Some(METER_OUT_15),
+            delay_addr: Some(DELAY_15_0),
+            invert_addr: POLARITY_OUT_15_0,
+            peq: &[],
             xover: Some(Crossover {
-                peqs: &[BPF_7_1, BPF_7_5, BM_BPF_7_1, BM_BPF_7_5],
+                peqs: &[BPF_15_1, BPF_15_5, BM_BPF_7_1, BM_BPF_7_5],
             }),
             compressor: Some(Compressor {
-                bypass: COMP_7_0_STATUS,
-                threshold: COMP_7_0_THRESHOLD,
-                ratio: COMP_7_0_RATIO,
-                attack: COMP_7_0_ATIME,
-                release: COMP_7_0_RTIME,
-                meter: Some(METER_COMP_7),
+                bypass: COMP_15_0_STATUS,
+                threshold: COMP_15_0_THRESHOLD,
+                ratio: COMP_15_0_RATIO,
+                attack: COMP_15_0_ATIME,
+                release: COMP_15_0_RTIME,
+                meter: Some(METER_COMP_15),
             }),
             fir: None,
         },
         Output {
             gate: Gate {
-                enable: D_GAIN_8_0_STATUS,
-                gain: Some(D_GAIN_8_0),
+                enable: D_GAIN_16_0_STATUS,
+                gain: Some(D_GAIN_16_0),
             },
-            meter: Some(METER_OUT_8),
-            delay_addr: Some(DELAY_8_0),
-            invert_addr: POLARITY_OUT_8_0,
-            peq: &[
-                PEQ_8_10, PEQ_8_9, PEQ_8_8, PEQ_8_7, PEQ_8_6, PEQ_8_5, PEQ_8_4, PEQ_8_3, PEQ_8_2,
-                PEQ_8_1,
-            ],
+            meter: Some(METER_OUT_16),
+            delay_addr: Some(DELAY_16_0),
+            invert_addr: POLARITY_OUT_16_0,
+            peq: &[],
             xover: Some(Crossover {
-                peqs: &[BPF_8_1, BPF_8_5, BM_BPF_8_1, BM_BPF_8_5],
+                peqs: &[BPF_16_1, BPF_16_5, BM_BPF_8_1, BM_BPF_8_5],
             }),
             compressor: Some(Compressor {
-                bypass: COMP_8_0_STATUS,
-                threshold: COMP_8_0_THRESHOLD,
-                ratio: COMP_8_0_RATIO,
-                attack: COMP_8_0_ATIME,
-                release: COMP_8_0_RTIME,
-                meter: Some(METER_COMP_8),
+                bypass: COMP_16_0_STATUS,
+                threshold: COMP_16_0_THRESHOLD,
+                ratio: COMP_16_0_RATIO,
+                attack: COMP_16_0_ATIME,
+                release: COMP_16_0_RTIME,
+                meter: Some(METER_COMP_16),
             }),
             fir: None,
         },

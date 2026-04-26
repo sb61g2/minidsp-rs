@@ -10,36 +10,36 @@ repository = "https://github.com/mrene/minidsp-rs"
 version = "0.1.13"
 
 [dependencies]
-anyhow = "1.0.98"
-async-trait = "0.1.88"
-atomic_refcell = "0.1.13"
+anyhow = "1.0.102"
+async-trait = "0.1.89"
+atomic_refcell = "0.1.14"
 bimap = "0.6.3"
-bytes = "1.10.1"
-clap = { version = "4.5.39", features = ["derive", "env"] }
+bytes = "1.11.1"
+clap = { version = "4.6.1", features = ["derive", "env"] }
 env_logger = "0.10.2"
-futures = "0.3.31"
-futures-sink = "0.3.31"
-futures-util = "0.3.31"
+futures = "0.3.32"
+futures-sink = "0.3.32"
+futures-util = "0.3.32"
 hex = "0.4.3"
 hexplay = "0.3.0"
 hyper = "0.14.32"
 lazy_static = "1.5.0"
-log = "0.4.27"
+log = "0.4.29"
 minidsp-protocol = { path = "../protocol", version = "0.1.13", default-features = false, features = [
   "use_serde",
   "debug",
   "devices",
 ] }
-pin-project = "1.1.10"
+pin-project = "1.1.11"
 schemars = "0.8.22"
-serde = { version = "1.0.219", features = ["derive"] }
-serde_json = "1.0.140"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
 shellwords = "1.1.0"
 strong-xml = "0.6.3"
 strum = { version = "0.25.0", features = ["derive"] }
 termcolor = "1.4.1"
 thiserror = "1.0.69"
-tokio-stream = { version = "0.1.17", features = ["sync"] }
+tokio-stream = { version = "0.1.18", features = ["sync"] }
 tokio-tungstenite = "0.20.1"
 tower = { version = "0.4.13", features = ["util", "timeout"] }
 url2 = "0.0.6"
@@ -54,15 +54,15 @@ hex-literal = "0.4.1"
 default-features = false
 features = ["linux-static-libusb"]
 optional = true
-version = "2.6.3"
+version = "2.6.5"
 
 [dependencies.tokio]
 features = ["rt-multi-thread", "net", "fs", "macros", "io-util"]
-version = "1.45.1"
+version = "1.52.1"
 
 [dependencies.tokio-util]
 features = ["net", "codec", "io"]
-version = "0.7.15"
+version = "0.7.18"
 
 [target.'cfg(target_family="unix")'.dependencies]
 hyperlocal = "0.8.0"
