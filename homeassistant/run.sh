@@ -53,17 +53,31 @@ fi
 # The Linux UAC driver binds to the FlexHTx audio interfaces and its clock
 # negotiation failure (err -71) destabilises the HID interface that minidspd
 # uses, causing repeated "Device not ready" / HID errors on USB reconnect.
+#
+# Race condition: on HAOS boot, udev may not have finished binding snd-usb-audio
+# by the time this script starts. We sleep briefly to let enumeration settle,
+# then retry the unbind up to 10 times (1 s apart) until no FlexHTx interfaces
+# remain bound — ensuring snd-usb-audio is fully clear before minidspd opens
+# the HID interface.
 if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
-    for iface in /sys/bus/usb/drivers/snd-usb-audio/*; do
-        iface_name=$(basename "${iface}")
-        # Only process interface symlinks (format "1-1:1.0", contain a colon)
-        case "${iface_name}" in *:*) ;; *) continue ;; esac
-        vendor=$(cat "${iface}/../idVendor"  2>/dev/null || true)
-        product=$(cat "${iface}/../idProduct" 2>/dev/null || true)
-        if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
-            echo "Releasing snd-usb-audio from ${iface_name} (MiniDSP FlexHTx)"
-            echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind 2>/dev/null || true
-        fi
+    sleep 2
+    retries=0
+    while [ "${retries}" -lt 10 ]; do
+        found=0
+        for iface in /sys/bus/usb/drivers/snd-usb-audio/*; do
+            iface_name=$(basename "${iface}")
+            case "${iface_name}" in *:*) ;; *) continue ;; esac
+            vendor=$(cat "${iface}/../idVendor"  2>/dev/null || true)
+            product=$(cat "${iface}/../idProduct" 2>/dev/null || true)
+            if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
+                echo "Releasing snd-usb-audio from ${iface_name} (MiniDSP FlexHTx, attempt $((retries + 1)))"
+                { echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind; } 2>/dev/null || true
+                found=1
+            fi
+        done
+        [ "${found}" -eq 0 ] && break
+        retries=$((retries + 1))
+        sleep 1
     done
 fi
 
