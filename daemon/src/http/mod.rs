@@ -139,7 +139,7 @@ async fn get_master_status(req: Request<Body>) -> Result<Response<Body>, Error> 
             status.output_levels.clear();
             let last_polled_status = Arc::new(std::sync::Mutex::new(status));
 
-            let mut level_interval = tokio::time::interval(Duration::from_millis(250));
+            let mut level_interval = tokio::time::interval(Duration::from_secs(2));
             let mut poll_interval = tokio::time::interval(Duration::from_secs(2));
 
             loop {
