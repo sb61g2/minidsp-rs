@@ -1,5 +1,5 @@
 name: "MiniDSP RS"
-version: "0.1.33"
+version: "0.1.34"
 slug: "minidsp"
 description: "MiniDSP control daemon providing HTTP API and TCP server for MiniDSP DSP devices (USB or Wi-DG network)"
 url: "https://github.com/mrene/minidsp-rs"
@@ -15,11 +15,13 @@ init: false
 # USB device access for MiniDSP hardware
 usb: true
 
-# SYS_ADMIN is required to write to sysfs so run.sh can release the
-# snd-usb-audio kernel driver's claim on the FlexHTx audio interfaces
-# before minidspd opens the HID interface.
-privileged:
-  - SYS_ADMIN
+# full_access gives the container privileged mode (equivalent to docker --privileged).
+# This is required so run.sh can write to sysfs to:
+#   1. Unbind the snd-usb-audio kernel driver from the FlexHTx audio interfaces
+#      (its clock negotiation failure destabilises the HID interface minidspd uses)
+#   2. Disable USB autosuspend on the device (autosuspend causes re-enumeration,
+#      which lets snd-usb-audio rebind and trigger the failure again)
+full_access: true
 
 # Expose HTTP API and TCP protocol servers (one port per device for Device Console)
 ports:

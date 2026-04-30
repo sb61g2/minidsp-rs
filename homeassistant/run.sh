@@ -81,6 +81,22 @@ if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
     done
 fi
 
+# Disable USB autosuspend for the FlexHTx device.
+# The kernel suspends idle USB devices by default. When the device wakes from
+# suspend it re-enumerates, which lets snd-usb-audio rebind to the audio
+# interfaces and trigger the same HID failure we just cleared above.
+# Setting power/control to "on" keeps the device permanently active.
+for dev in /sys/bus/usb/devices/*/; do
+    vendor=$(cat "${dev}idVendor"  2>/dev/null || true)
+    product=$(cat "${dev}idProduct" 2>/dev/null || true)
+    if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
+        devname=$(basename "${dev}")
+        echo "Disabling USB autosuspend for FlexHTx (${devname})"
+        { echo -1  > "${dev}power/autosuspend_delay_ms"; } 2>/dev/null || true
+        { echo on  > "${dev}power/control";               } 2>/dev/null || true
+    fi
+done
+
 echo "Starting MiniDSP RS daemon"
 echo "  HTTP API: http://${HTTP_BIND}"
 [ -n "${WIDG_IP}" ] && [ "${WIDG_IP}" != "null" ] && echo "  Wi-DG   : tcp://${WIDG_IP}:5333"
