@@ -319,14 +319,17 @@ impl Device {
             Arc::new(Mutex::new(mplex.to_service()))
         };
 
-        // Probe the device hardware id and dsp version in order to get the right specs
-        // Keep going if we do not know the device type, but it has successfully responsed to
-        // probing commands. This can be used to support a common subset of features without
-        // knowing the device-specific memory layout.
-        let device_info = {
-            let client = Client::new(service.clone());
-            client.get_device_info().await.ok()
-        };
+        // Probe the device hardware id and dsp version in order to get the right specs.
+        // Fail early if the probe doesn't succeed — a None here means the device is
+        // not yet ready (still initializing after a USB reset). Returning Err causes
+        // Device::task to retry after RECONNECT_DELAY instead of storing a broken
+        // "unknown device" handle that silently rejects all commands.
+        let client = Client::new(service.clone());
+        let device_info = client
+            .get_device_info()
+            .await
+            .map_err(|e| anyhow!("device probe failed (not ready?): {e}"))?;
+        let device_info = Some(device_info);
         let device_spec = device_info.map(|dev| device::probe(&dev));
 
         let devhandle = DeviceHandle {
@@ -381,19 +384,23 @@ impl Device {
     /// Main device task
     /// This is spawned when the device is first discovered and manages it's complete lifecycle.
     async fn task(inner: Arc<RwLock<DeviceInner>>) -> anyhow::Result<()> {
+        // 5 seconds between reconnect attempts. The FlexHTx HID interface can take several
+        // seconds to reinitialize after a USB error; 1s was too short and caused a tight
+        // reconnect loop that prevented the device from recovering.
+        const RECONNECT_DELAY_SECS: u64 = 5;
         loop {
             // Try to probe the device until we're successful
             let res = Self::task_inner(inner.clone()).await;
             match res {
                 Ok(_) => {
-                    log::info!("Device disconnected, reconnecting...");
+                    log::info!("Device disconnected, reconnecting in {RECONNECT_DELAY_SECS}s...");
                 }
                 Err(e) => {
-                    log::warn!("fail to connect: {e}");
+                    log::warn!("fail to connect: {e} — retrying in {RECONNECT_DELAY_SECS}s");
                 }
             }
 
-            tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+            tokio::time::sleep(std::time::Duration::from_secs(RECONNECT_DELAY_SECS)).await;
         }
     }
 }
