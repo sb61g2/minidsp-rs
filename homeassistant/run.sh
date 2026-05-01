@@ -49,66 +49,28 @@ if [ -n "${WIDG_IP}" ] && [ "${WIDG_IP}" != "null" ]; then
     printf '[[static_device]]\nurl = "tcp://%s:5333"\n' "${WIDG_IP}" >> "${CONFIG_PATH}"
 fi
 
-# Release snd-usb-audio's claim on MiniDSP FlexHTx audio interfaces and
-# deauthorize those interfaces so they cannot be re-claimed.
+# Release any snd-usb-audio claim on the MiniDSP FlexHTx audio interfaces.
 #
-# The Linux UAC driver binds to the FlexHTx audio interfaces and its clock
-# negotiation failure (err -71) destabilises the HID interface that minidspd
-# uses, causing repeated "Device not ready" / HID errors on USB reconnect.
-#
-# After unbinding, writing 0 to the interface's authorized sysfs attribute
-# prevents ANY driver from re-binding to that interface until the device
-# re-enumerates. The HID interface (bInterfaceClass 03) is left authorized.
-#
-# Race condition: on HAOS boot, udev may not have finished binding snd-usb-audio
-# by the time this script starts. We sleep briefly to let enumeration settle,
-# then retry the unbind+deauthorize up to 10 times (1 s apart).
+# The Linux UAC driver's clock negotiation failure (err -71) destabilises the
+# HID interface that minidspd uses. The permanent fix is a modprobe blacklist
+# written to the HAOS host at /etc/modprobe.d/minidsp-no-audio.conf so the
+# module never loads. This one-shot unbind is a safety net in case the blacklist
+# is absent (e.g. after a HAOS OS update that resets the overlay).
 if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
-    sleep 2
-    retries=0
-    while [ "${retries}" -lt 10 ]; do
-        found=0
-        for iface in /sys/bus/usb/drivers/snd-usb-audio/*; do
-            iface_name=$(basename "${iface}")
-            case "${iface_name}" in *:*) ;; *) continue ;; esac
-            vendor=$(cat "${iface}/../idVendor"  2>/dev/null || true)
-            product=$(cat "${iface}/../idProduct" 2>/dev/null || true)
-            if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
-                echo "Releasing snd-usb-audio from ${iface_name} (MiniDSP FlexHTx, attempt $((retries + 1)))"
-                { echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind; } 2>/dev/null || true
-                { echo 0 > "/sys/bus/usb/devices/${iface_name}/authorized"; } 2>/dev/null || true
-                found=1
-            fi
-        done
-        [ "${found}" -eq 0 ] && break
-        retries=$((retries + 1))
-        sleep 1
+    for iface in /sys/bus/usb/drivers/snd-usb-audio/*; do
+        iface_name=$(basename "${iface}")
+        case "${iface_name}" in *:*) ;; *) continue ;; esac
+        vendor=$(cat "${iface}/../idVendor"  2>/dev/null || true)
+        product=$(cat "${iface}/../idProduct" 2>/dev/null || true)
+        if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
+            echo "Releasing snd-usb-audio from ${iface_name} (MiniDSP FlexHTx — blacklist may be missing)"
+            { echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind; } 2>/dev/null || true
+        fi
     done
 fi
 
-# Deauthorize any remaining FlexHTx audio interfaces (bInterfaceClass 01) that
-# snd-usb-audio may not have claimed yet but could claim at any time.
-for dev in /sys/bus/usb/devices/*/; do
-    vendor=$(cat "${dev}idVendor"  2>/dev/null || true)
-    product=$(cat "${dev}idProduct" 2>/dev/null || true)
-    if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
-        devname=$(basename "${dev%/}")
-        for iface in "/sys/bus/usb/devices/${devname}:"*/; do
-            cls=$(cat "${iface}bInterfaceClass" 2>/dev/null || true)
-            if [ "${cls}" = "01" ]; then
-                iface_name=$(basename "${iface%/}")
-                echo "Deauthorizing FlexHTx audio interface ${iface_name}"
-                { echo 0 > "${iface}authorized"; } 2>/dev/null || true
-            fi
-        done
-    fi
-done
-
 # Disable USB autosuspend for the FlexHTx device.
-# The kernel suspends idle USB devices by default. When the device wakes from
-# suspend it re-enumerates, which lets snd-usb-audio rebind to the audio
-# interfaces and trigger the same HID failure we just cleared above.
-# Setting power/control to "on" keeps the device permanently active.
+# Autosuspend causes re-enumeration, which triggers driver re-binding.
 for dev in /sys/bus/usb/devices/*/; do
     vendor=$(cat "${dev}idVendor"  2>/dev/null || true)
     product=$(cat "${dev}idProduct" 2>/dev/null || true)
@@ -119,27 +81,6 @@ for dev in /sys/bus/usb/devices/*/; do
         { echo on  > "${dev}power/control";               } 2>/dev/null || true
     fi
 done
-
-# Background monitor: if snd-usb-audio rebinds (e.g. after USB re-enumeration),
-# unbind it and re-deauthorize the audio interfaces to block future rebinds.
-(
-    while true; do
-        sleep 10
-        if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
-            for iface in /sys/bus/usb/drivers/snd-usb-audio/*; do
-                iface_name=$(basename "${iface}")
-                case "${iface_name}" in *:*) ;; *) continue ;; esac
-                vendor=$(cat "${iface}/../idVendor"  2>/dev/null || true)
-                product=$(cat "${iface}/../idProduct" 2>/dev/null || true)
-                if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
-                    echo "snd-usb-audio rebind on ${iface_name} — unbinding and deauthorizing"
-                    { echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind; } 2>/dev/null || true
-                    { echo 0 > "/sys/bus/usb/devices/${iface_name}/authorized"; } 2>/dev/null || true
-                fi
-            done
-        fi
-    done
-) &
 
 echo "Starting MiniDSP RS daemon"
 echo "  HTTP API: http://${HTTP_BIND}"
