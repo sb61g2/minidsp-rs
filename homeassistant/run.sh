@@ -97,6 +97,27 @@ for dev in /sys/bus/usb/devices/*/; do
     fi
 done
 
+# Background monitor: if snd-usb-audio rebinds to the FlexHTx at any point
+# while the daemon is running (e.g. after a USB reset or udev re-scan), unbind
+# it immediately so the daemon's reconnect loop can reclaim the HID interface.
+(
+    while true; do
+        sleep 10
+        if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
+            for iface in /sys/bus/usb/drivers/snd-usb-audio/*; do
+                iface_name=$(basename "${iface}")
+                case "${iface_name}" in *:*) ;; *) continue ;; esac
+                vendor=$(cat "${iface}/../idVendor"  2>/dev/null || true)
+                product=$(cat "${iface}/../idProduct" 2>/dev/null || true)
+                if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
+                    echo "snd-usb-audio rebind detected on ${iface_name} — unbinding"
+                    { echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind; } 2>/dev/null || true
+                fi
+            done
+        fi
+    done
+) &
+
 echo "Starting MiniDSP RS daemon"
 echo "  HTTP API: http://${HTTP_BIND}"
 [ -n "${WIDG_IP}" ] && [ "${WIDG_IP}" != "null" ] && echo "  Wi-DG   : tcp://${WIDG_IP}:5333"
