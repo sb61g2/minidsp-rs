@@ -49,16 +49,20 @@ if [ -n "${WIDG_IP}" ] && [ "${WIDG_IP}" != "null" ]; then
     printf '[[static_device]]\nurl = "tcp://%s:5333"\n' "${WIDG_IP}" >> "${CONFIG_PATH}"
 fi
 
-# Release snd-usb-audio's claim on MiniDSP FlexHTx audio interfaces.
+# Release snd-usb-audio's claim on MiniDSP FlexHTx audio interfaces and
+# deauthorize those interfaces so they cannot be re-claimed.
+#
 # The Linux UAC driver binds to the FlexHTx audio interfaces and its clock
 # negotiation failure (err -71) destabilises the HID interface that minidspd
 # uses, causing repeated "Device not ready" / HID errors on USB reconnect.
 #
+# After unbinding, writing 0 to the interface's authorized sysfs attribute
+# prevents ANY driver from re-binding to that interface until the device
+# re-enumerates. The HID interface (bInterfaceClass 03) is left authorized.
+#
 # Race condition: on HAOS boot, udev may not have finished binding snd-usb-audio
 # by the time this script starts. We sleep briefly to let enumeration settle,
-# then retry the unbind up to 10 times (1 s apart) until no FlexHTx interfaces
-# remain bound — ensuring snd-usb-audio is fully clear before minidspd opens
-# the HID interface.
+# then retry the unbind+deauthorize up to 10 times (1 s apart).
 if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
     sleep 2
     retries=0
@@ -72,6 +76,7 @@ if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
             if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
                 echo "Releasing snd-usb-audio from ${iface_name} (MiniDSP FlexHTx, attempt $((retries + 1)))"
                 { echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind; } 2>/dev/null || true
+                { echo 0 > "/sys/bus/usb/devices/${iface_name}/authorized"; } 2>/dev/null || true
                 found=1
             fi
         done
@@ -80,6 +85,24 @@ if [ -d /sys/bus/usb/drivers/snd-usb-audio ]; then
         sleep 1
     done
 fi
+
+# Deauthorize any remaining FlexHTx audio interfaces (bInterfaceClass 01) that
+# snd-usb-audio may not have claimed yet but could claim at any time.
+for dev in /sys/bus/usb/devices/*/; do
+    vendor=$(cat "${dev}idVendor"  2>/dev/null || true)
+    product=$(cat "${dev}idProduct" 2>/dev/null || true)
+    if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
+        devname=$(basename "${dev%/}")
+        for iface in "/sys/bus/usb/devices/${devname}:"*/; do
+            cls=$(cat "${iface}bInterfaceClass" 2>/dev/null || true)
+            if [ "${cls}" = "01" ]; then
+                iface_name=$(basename "${iface%/}")
+                echo "Deauthorizing FlexHTx audio interface ${iface_name}"
+                { echo 0 > "${iface}authorized"; } 2>/dev/null || true
+            fi
+        done
+    fi
+done
 
 # Disable USB autosuspend for the FlexHTx device.
 # The kernel suspends idle USB devices by default. When the device wakes from
@@ -97,9 +120,8 @@ for dev in /sys/bus/usb/devices/*/; do
     fi
 done
 
-# Background monitor: if snd-usb-audio rebinds to the FlexHTx at any point
-# while the daemon is running (e.g. after a USB reset or udev re-scan), unbind
-# it immediately so the daemon's reconnect loop can reclaim the HID interface.
+# Background monitor: if snd-usb-audio rebinds (e.g. after USB re-enumeration),
+# unbind it and re-deauthorize the audio interfaces to block future rebinds.
 (
     while true; do
         sleep 10
@@ -110,8 +132,9 @@ done
                 vendor=$(cat "${iface}/../idVendor"  2>/dev/null || true)
                 product=$(cat "${iface}/../idProduct" 2>/dev/null || true)
                 if [ "${vendor}" = "2752" ] && [ "${product}" = "004b" ]; then
-                    echo "snd-usb-audio rebind detected on ${iface_name} — unbinding"
+                    echo "snd-usb-audio rebind on ${iface_name} — unbinding and deauthorizing"
                     { echo -n "${iface_name}" > /sys/bus/usb/drivers/snd-usb-audio/unbind; } 2>/dev/null || true
+                    { echo 0 > "/sys/bus/usb/devices/${iface_name}/authorized"; } 2>/dev/null || true
                 fi
             done
         fi
