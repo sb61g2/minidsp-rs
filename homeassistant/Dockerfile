@@ -2,13 +2,12 @@ FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         tzdata \
+        curl \
         libusb-1.0-0 \
         libhidapi-libusb0 \
         libudev1 \
         jq \
     && rm -rf /var/lib/apt/lists/*
-
-ENV TZ=Pacific/Honolulu
 
 # Binary is cross-compiled by CI and staged into this directory before docker build
 COPY minidspd /usr/local/bin/minidspd

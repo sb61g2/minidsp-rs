@@ -9,6 +9,13 @@ WIDG_IP=$(jq   --raw-output '.widg_ip           // ""'             "${OPTIONS}")
 
 export RUST_LOG="${LOG_LEVEL}"
 
+if [ -n "${SUPERVISOR_TOKEN}" ]; then
+    HA_TZ=$(curl -sf \
+        -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" \
+        http://supervisor/core/api/config | jq -r '.time_zone // ""')
+    [ -n "${HA_TZ}" ] && export TZ="${HA_TZ}"
+fi
+
 CONFIG_PATH=/data/minidsp.toml
 
 # [http_server] block
