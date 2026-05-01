@@ -101,8 +101,13 @@ impl DeviceManager {
     }
 
     pub async fn get_minidsp(&self, index: usize) -> Option<MiniDSP<'static>> {
+        // Do NOT call reconnect_device here. Device::task is the sole owner of the
+        // HID connection. Spawning a competing reconnect from the HTTP handler created
+        // multiple concurrent tasks all trying to open the same HID device, causing
+        // each to trip the other (hid_error / TransportClosed cascade). If the handle
+        // is absent, just retry briefly and let Device::task reconnect in the background.
         let mut attempts = 0;
-        let mut device = self.get_device(index)?;
+        let device = self.get_device(index)?;
         loop {
             attempts += 1;
             let err = match device.to_minidsp() {
@@ -122,32 +127,12 @@ impl DeviceManager {
                 attempts,
                 err
             );
-            if attempts > 3 || !err.is_retryable() {
+            if attempts >= 3 || !err.is_retryable() {
                 log::warn!("giving up attempting to connect.");
                 return None;
             }
-            if err.should_reconnect() {
-                device = self.reconnect_device(device).await;
-            }
-            tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+            tokio::time::sleep(std::time::Duration::from_millis(500)).await;
         }
-    }
-
-    pub async fn reconnect_device(&self, device: Arc<Device>) -> Arc<Device> {
-        let url = device.url.clone();
-        {
-            let mut inner = self.inner.write().unwrap();
-            inner.devices.retain(|dev| dev.url != url);
-        }
-
-        device.shutdown().await;
-
-        let mut inner = self.inner.write().unwrap();
-        let weak_inner = Arc::downgrade(&self.inner);
-
-        let new_device: Arc<Device> = Device::new(url, weak_inner).into();
-        inner.devices.push(new_device.clone());
-        new_device
     }
 
     pub fn register_static(&self, dev: &str) {
