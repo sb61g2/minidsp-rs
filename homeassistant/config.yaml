@@ -1,5 +1,5 @@
 name: "MiniDSP RS"
-version: "0.1.41"
+version: "0.1.42"
 slug: "minidsp"
 description: "MiniDSP control daemon providing HTTP API and TCP server for MiniDSP DSP devices (USB or Wi-DG network)"
 url: "https://github.com/mrene/minidsp-rs"
@@ -16,11 +16,10 @@ init: false
 usb: true
 
 # full_access gives the container privileged mode (equivalent to docker --privileged).
-# This is required so run.sh can write to sysfs to disable USB autosuspend on the
-# FlexHTx device (autosuspend causes re-enumeration, which triggers driver binding).
-# snd-usb-audio is permanently blacklisted on the HAOS host via
-# /etc/modprobe.d/minidsp-no-audio.conf; run.sh carries a one-shot unbind as a
-# safety net in case the blacklist is absent after a HAOS OS update.
+# Required for run.sh to: (1) write to sysfs to disable USB autosuspend, (2) unbind
+# snd-usb-audio from FlexHTx audio interfaces and rmmod the module, (3) write the
+# snd-usb-audio modprobe blacklist to the HAOS host via /proc/1/root so it
+# self-heals after HAOS OS updates that wipe the overlay filesystem.
 full_access: true
 
 # Expose HTTP API and TCP protocol servers (one port per device for Device Console)
