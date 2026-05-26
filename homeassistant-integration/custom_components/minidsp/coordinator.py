@@ -137,7 +137,15 @@ class MiniDSPCoordinator:
                 assert self._session
                 async with self._session.ws_connect(url) as ws:
                     _LOGGER.debug("WebSocket connected for device %d", device_index)
-                    async for msg in ws:
+                    while True:
+                        try:
+                            msg = await asyncio.wait_for(ws.receive(), timeout=120)
+                        except asyncio.TimeoutError:
+                            _LOGGER.warning(
+                                "Device %d: no WS update in 2 min — reconnecting",
+                                device_index,
+                            )
+                            break
                         if msg.type == aiohttp.WSMsgType.TEXT:
                             self._apply_update(device_index, json.loads(msg.data))
                         elif msg.type in (
