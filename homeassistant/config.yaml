@@ -15,11 +15,9 @@ init: false
 # USB device access for MiniDSP hardware
 usb: true
 
-# full_access gives the container privileged mode (equivalent to docker --privileged).
-# Required for run.sh to: (1) write to sysfs to disable USB autosuspend, (2) unbind
-# snd-usb-audio from FlexHTx audio interfaces and rmmod the module, (3) write the
-# snd-usb-audio modprobe blacklist to the HAOS host via /proc/1/root so it
-# self-heals after HAOS OS updates that wipe the overlay filesystem.
+# full_access: true is set here but does NOT produce --privileged in HAOS (verified).
+# Sysfs is ro in all add-on containers regardless. The snd_usb_audio blacklist is
+# maintained on the HAOS host via nsenter from the SSH add-on, not from this container.
 full_access: true
 
 # Expose HTTP API and TCP protocol servers (one port per device for Device Console)
