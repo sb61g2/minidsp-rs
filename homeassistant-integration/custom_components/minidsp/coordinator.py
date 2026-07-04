@@ -131,7 +131,7 @@ class MiniDSPCoordinator:
     # ------------------------------------------------------------------
 
     async def _ws_loop(self, device_index: int) -> None:
-        url = f"{self.ws_url}/devices/{device_index}?levels=true"
+        url = f"{self.ws_url}/devices/{device_index}"
         while self._running:
             try:
                 assert self._session
