@@ -135,7 +135,7 @@ class MiniDSPCoordinator:
         while self._running:
             try:
                 assert self._session
-                async with self._session.ws_connect(url) as ws:
+                async with self._session.ws_connect(url, heartbeat=60) as ws:
                     _LOGGER.debug("WebSocket connected for device %d", device_index)
                     while True:
                         try:
