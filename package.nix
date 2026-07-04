@@ -1,4 +1,10 @@
-{ lib, rustPlatform, stdenv, libusb1 ? null, darwin ? null, pkg-config }:
+{
+  lib,
+  rustPlatform,
+  stdenv,
+  libusb1 ? null,
+  pkg-config,
+}:
 
 rustPlatform.buildRustPackage {
   pname = "minidsp";
@@ -10,9 +16,7 @@ rustPlatform.buildRustPackage {
 
   doCheck = false;
 
-  buildInputs = lib.optionals stdenv.isLinux [ libusb1 ] ++
-    lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [ IOKit AppKit ]);
-
+  buildInputs = lib.optionals stdenv.isLinux [ libusb1 ];
   nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config ];
 
   meta = with lib; {

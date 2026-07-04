@@ -373,6 +373,9 @@ pub struct Input<'a> {
 impl Input<'_> {
     /// Sets whether this input is routed to the given output
     pub async fn set_output_enable(&self, output_index: usize, value: bool) -> Result<()> {
+        if output_index >= self.spec.routing.len() {
+            return Err(MiniDSPError::OutOfRange);
+        }
         let dialect = self.dsp.dialect();
         let addr = dialect.addr(self.spec.routing[output_index].enable);
         let value = dialect.mute(!value);
@@ -382,6 +385,9 @@ impl Input<'_> {
 
     /// Sets the routing matrix gain for this [input, output_index] pair
     pub async fn set_output_gain(&self, output_index: usize, gain: Gain) -> Result<()> {
+        if output_index >= self.spec.routing.len() {
+            return Err(MiniDSPError::OutOfRange);
+        }
         let addr = self.spec.routing[output_index]
             .gain
             .ok_or(MiniDSPError::NoSuchPeripheral)?;
