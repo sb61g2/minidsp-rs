@@ -1,7 +1,7 @@
 {
   "domain": "minidsp",
   "name": "MiniDSP",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "documentation": "https://github.com/mrene/minidsp-rs",
   "issue_tracker": "https://github.com/mrene/minidsp-rs/issues",
   "requirements": [],
