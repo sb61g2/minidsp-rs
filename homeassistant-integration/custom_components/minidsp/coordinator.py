@@ -9,6 +9,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 
 import aiohttp
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
@@ -73,14 +74,16 @@ class MiniDSPCoordinator:
     # Setup / teardown
     # ------------------------------------------------------------------
 
-    async def async_setup(self) -> None:
+    async def async_setup(self, entry: ConfigEntry) -> None:
         self._session = aiohttp.ClientSession()
         self._running = True
         await self._fetch_devices()
         for device in self.devices:
             self._states[device.index] = MiniDSPState()
-            self._ws_tasks[device.index] = self.hass.loop.create_task(
-                self._ws_loop(device.index)
+            self._ws_tasks[device.index] = entry.async_create_background_task(
+                self.hass,
+                self._ws_loop(device.index),
+                f"minidsp_ws_{device.index}",
             )
 
     async def async_shutdown(self) -> None:
@@ -147,6 +150,8 @@ class MiniDSPCoordinator:
                         ):
                             break
             except asyncio.CancelledError:
+                self._ws_connected[device_index] = False
+                self._fire_listeners(device_index)
                 return
             except Exception as exc:
                 _LOGGER.warning(
@@ -157,8 +162,16 @@ class MiniDSPCoordinator:
                 )
             finally:
                 self._ws_connected[device_index] = False
+            try:
+                await asyncio.sleep(RECONNECT_DELAY)
+            except asyncio.CancelledError:
                 self._fire_listeners(device_index)
-            await asyncio.sleep(RECONNECT_DELAY)
+                return
+            # Signal unavailable after the grace period so brief reconnects
+            # don't flash the entity; if reconnect succeeds on the next
+            # iteration this fires False just before the loop sets True,
+            # but the gap is sub-millisecond and invisible in the UI.
+            self._fire_listeners(device_index)
 
     def _apply_update(self, device_index: int, data: dict) -> None:
         master = data.get("master", {})

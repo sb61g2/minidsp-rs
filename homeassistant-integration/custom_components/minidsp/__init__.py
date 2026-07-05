@@ -20,7 +20,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         port=entry.data[CONF_PORT],
     )
     try:
-        await coordinator.async_setup()
+        await coordinator.async_setup(entry)
     except Exception as exc:
         await coordinator.async_shutdown()
         raise ConfigEntryNotReady(f"Cannot connect to MiniDSP daemon: {exc}") from exc
