@@ -5,7 +5,6 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
@@ -64,7 +63,7 @@ class MiniDSPCoordinator:
 
         self.devices: list[MiniDSPDeviceInfo] = []
         self._states: dict[int, MiniDSPState] = {}
-        self._last_update: dict[int, float] = {}
+        self._ws_connected: dict[int, bool] = {}
         self._listeners: dict[int, set[Callable[[], None]]] = {}
         self._ws_tasks: dict[int, asyncio.Task] = {}
         self._session: aiohttp.ClientSession | None = None
@@ -137,15 +136,9 @@ class MiniDSPCoordinator:
                 assert self._session
                 async with self._session.ws_connect(url, heartbeat=60) as ws:
                     _LOGGER.debug("WebSocket connected for device %d", device_index)
-                    while True:
-                        try:
-                            msg = await asyncio.wait_for(ws.receive(), timeout=120)
-                        except asyncio.TimeoutError:
-                            _LOGGER.warning(
-                                "Device %d: no WS update in 2 min — reconnecting",
-                                device_index,
-                            )
-                            break
+                    self._ws_connected[device_index] = True
+                    self._fire_listeners(device_index)
+                    async for msg in ws:
                         if msg.type == aiohttp.WSMsgType.TEXT:
                             self._apply_update(device_index, json.loads(msg.data))
                         elif msg.type in (
@@ -162,6 +155,9 @@ class MiniDSPCoordinator:
                     exc,
                     RECONNECT_DELAY,
                 )
+            finally:
+                self._ws_connected[device_index] = False
+                self._fire_listeners(device_index)
             await asyncio.sleep(RECONNECT_DELAY)
 
     def _apply_update(self, device_index: int, data: dict) -> None:
@@ -182,21 +178,18 @@ class MiniDSPCoordinator:
         if "output_levels" in data:
             state.output_levels = data["output_levels"]
 
-        self._last_update[device_index] = time.monotonic()
-
-        for cb in list(self._listeners.get(device_index, set())):
-            cb()
+        self._fire_listeners(device_index)
 
     # ------------------------------------------------------------------
     # Availability
     # ------------------------------------------------------------------
 
+    def _fire_listeners(self, device_index: int) -> None:
+        for cb in list(self._listeners.get(device_index, set())):
+            cb()
+
     def is_device_available(self, device_index: int) -> bool:
-        """Return False if no WebSocket update received in the last 2 minutes."""
-        last = self._last_update.get(device_index)
-        if last is None:
-            return False
-        return (time.monotonic() - last) < 120
+        return self._ws_connected.get(device_index, False)
 
     # ------------------------------------------------------------------
     # Listener subscription
