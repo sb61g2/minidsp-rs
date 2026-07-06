@@ -141,6 +141,30 @@ class MiniDSPCoordinator:
                     _LOGGER.debug("WebSocket connected for device %d", device_index)
                     self._ws_connected[device_index] = True
                     self._fire_listeners(device_index)
+
+                    # Wait for the daemon's initial state push. When the device
+                    # is functional the daemon sends current state immediately on
+                    # WS connect. If nothing arrives within 60 s the daemon is up
+                    # but the hardware is not responding (DeviceNotReady HID
+                    # timeout). Close the WS so the entity goes unavailable and
+                    # the watchdog automation can trigger a power cycle + restart.
+                    try:
+                        first = await asyncio.wait_for(ws.receive(), timeout=60)
+                    except asyncio.TimeoutError:
+                        _LOGGER.warning(
+                            "Device %d: no initial state from daemon in 60s"
+                            " — hardware not ready, reconnecting",
+                            device_index,
+                        )
+                        break
+                    if first.type == aiohttp.WSMsgType.TEXT:
+                        self._apply_update(device_index, json.loads(first.data))
+                    elif first.type in (
+                        aiohttp.WSMsgType.CLOSED,
+                        aiohttp.WSMsgType.ERROR,
+                    ):
+                        break
+
                     async for msg in ws:
                         if msg.type == aiohttp.WSMsgType.TEXT:
                             self._apply_update(device_index, json.loads(msg.data))
