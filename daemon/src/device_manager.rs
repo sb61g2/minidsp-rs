@@ -153,7 +153,7 @@ impl DeviceManager {
 
         loop {
             while let Some(event) = discovery_events.next().await {
-                log::trace!("{:?}", &event);
+                log::trace!("{:?}", event);
 
                 let weak_inner = Arc::downgrade(&inner);
                 let mut inner = inner.write().unwrap();
@@ -348,7 +348,7 @@ impl Device {
 
         log::info!(
             "Identified {} as {} (serial# {})",
-            &url,
+            url,
             device_spec
                 .map(|spec| spec.product_name)
                 .unwrap_or("(unknown device)"),
@@ -410,7 +410,7 @@ impl Device {
             r = mplex_done => r,
         };
 
-        log::warn!("Device at {} is closing ({})", &url, exit_reason);
+        log::warn!("Device at {} is closing ({})", url, exit_reason);
 
         // Clear the handle so the device shows as not-ready while the task loop reconnects.
         // Do NOT remove the device from the manager — that would make it disappear from the

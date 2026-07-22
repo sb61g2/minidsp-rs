@@ -35,7 +35,7 @@ pub async fn advertise_packet(
             let send_result = socket.send(packet_bytes.as_ref()).await;
             match send_result {
                 Ok(_) => {
-                    trace!("sent advertisement: {:?}", &packet);
+                    trace!("sent advertisement: {:?}", packet);
                 }
                 Err(e) => {
                     error!("couldn't send broadcast datagram: {e:?}");

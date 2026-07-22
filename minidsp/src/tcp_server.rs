@@ -139,7 +139,7 @@ where
            },
            result = stream_rx.recv() => {
                 if result.is_err() {
-                    log::error!("stream rx: {:?}", &result);
+                    log::error!("stream rx: {:?}", result);
                     return Err(MiniDSPError::TransportClosed.into())
                 }
            }

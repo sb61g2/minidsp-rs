@@ -133,7 +133,7 @@ pub async fn main(cfg: config::TcpServer) -> Result<(), MiniDSPError> {
     }
 
     let listener = TcpListener::bind(&bind_address).await?;
-    log::info!("Listening on {}", &bind_address);
+    log::info!("Listening on {}", bind_address);
     loop {
         select! {
            result = listener.accept() => {

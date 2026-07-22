@@ -490,7 +490,7 @@ pub async fn main(cfg: Option<HttpServer>) -> Result<(), anyhow::Error> {
         futs.push(
             tokio::spawn(async move {
                 if let Err(e) = tcp_main(server).await {
-                    eprintln!("HTTP/TCP listener error: {}", &e);
+                    eprintln!("HTTP/TCP listener error: {}", e);
                     return Err(e);
                 }
                 Ok(())
@@ -503,7 +503,7 @@ pub async fn main(cfg: Option<HttpServer>) -> Result<(), anyhow::Error> {
     futs.push(
         tokio::spawn(async {
             if let Err(e) = unix_main().await {
-                eprintln!("HTTP/Unix listener error: {}", &e);
+                eprintln!("HTTP/Unix listener error: {}", e);
                 return Err(e);
             }
             Ok(())

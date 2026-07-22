@@ -127,7 +127,7 @@ impl Multiplexer {
 
             let mut writer_guard = this.write.lock().await;
             let writer = writer_guard.as_mut().ok_or(MiniDSPError::TransportClosed)?;
-            log::trace!("send: {:02x?}", &cmd);
+            log::trace!("send: {:02x?}", cmd);
             if let Err(e) = writer.send(cmd).await {
                 // Poison the sink so it is never polled again — re-polling a
                 // SinkMapErr after it has consumed its closure panics.

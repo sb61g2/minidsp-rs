@@ -62,14 +62,14 @@ where
 {
     let stream = ws
         .map(|item| -> Result<Bytes, MiniDSPError> {
-            log::trace!("websocket rx: {:?}", &item);
+            log::trace!("websocket rx: {:?}", item);
             match item {
                 Ok(msg) => Ok(Bytes::from(msg.into_data())),
                 Err(e) => Err(MiniDSPError::TransportFailure(e.to_string())),
             }
         })
         .with(|item: Bytes| {
-            log::trace!("websocket tx: {:?}", &item);
+            log::trace!("websocket tx: {:?}", item);
             future::ready(Ok(Message::from(item.to_vec())))
         })
         .sink_map_err(|e: tungstenite::Error| MiniDSPError::TransportFailure(e.to_string()));
