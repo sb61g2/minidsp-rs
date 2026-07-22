@@ -37,6 +37,14 @@ pub fn initialize_api() -> HidResult<Arc<Mutex<HidApi>>> {
     Ok(api)
 }
 
+/// Drops the cached HidApi instance so the next call to `initialize_api` builds a
+/// fresh one (a fresh libusb context on Linux). After a device flaps repeatedly,
+/// `hid_open`/`hid_open_path` can keep failing against a stale context even once the
+/// device is physically present again; recreating the context clears that state.
+pub fn reset_api() {
+    HIDAPI_INSTANCE.borrow_mut().take();
+}
+
 pub struct HidTransport {
     stream: HidStream,
 }

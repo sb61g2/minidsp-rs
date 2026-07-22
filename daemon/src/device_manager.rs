@@ -428,14 +428,37 @@ impl Device {
         // seconds to reinitialize after a USB error; 1s was too short and caused a tight
         // reconnect loop that prevented the device from recovering.
         const RECONNECT_DELAY_SECS: u64 = 5;
+        // After this many consecutive HID open failures, the cached HidApi/libusb context
+        // is assumed wedged (observed after a device flaps disconnect/reconnect a few times
+        // in a row) and gets recreated, since it can otherwise fail to open the device even
+        // after it's physically back and enumerated.
+        const HID_RESET_THRESHOLD: u32 = 3;
+        let mut consecutive_hid_failures: u32 = 0;
         loop {
             // Try to probe the device until we're successful
             let res = Self::task_inner(inner.clone()).await;
             match res {
                 Ok(_) => {
+                    consecutive_hid_failures = 0;
                     log::info!("Device disconnected, reconnecting in {RECONNECT_DELAY_SECS}s...");
                 }
                 Err(e) => {
+                    let is_hid_error =
+                        matches!(e.downcast_ref::<MiniDSPError>(), Some(MiniDSPError::HIDError(_)));
+
+                    if is_hid_error {
+                        consecutive_hid_failures += 1;
+                        if consecutive_hid_failures >= HID_RESET_THRESHOLD {
+                            log::warn!(
+                                "{consecutive_hid_failures} consecutive HID open failures, resetting HID context"
+                            );
+                            transport::hid::reset_api();
+                            consecutive_hid_failures = 0;
+                        }
+                    } else {
+                        consecutive_hid_failures = 0;
+                    }
+
                     log::warn!("fail to connect: {e} — retrying in {RECONNECT_DELAY_SECS}s");
                 }
             }
