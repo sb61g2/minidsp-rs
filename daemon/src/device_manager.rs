@@ -443,8 +443,10 @@ impl Device {
                     log::info!("Device disconnected, reconnecting in {RECONNECT_DELAY_SECS}s...");
                 }
                 Err(e) => {
-                    let is_hid_error =
-                        matches!(e.downcast_ref::<MiniDSPError>(), Some(MiniDSPError::HIDError(_)));
+                    let is_hid_error = matches!(
+                        e.downcast_ref::<MiniDSPError>(),
+                        Some(MiniDSPError::HIDError(_))
+                    );
 
                     if is_hid_error {
                         consecutive_hid_failures += 1;
